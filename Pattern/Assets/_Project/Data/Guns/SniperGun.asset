@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da81aa7e9996ac94187bd7c35e7f71c7, type: 3}
+  m_Name: SniperGun
+  m_EditorClassIdentifier: 
+  <SpawnPoints>k__BackingField: {fileID: 4291835984764582443, guid: 8a2199e0f5d3f0f48aae15956bc202b0, type: 3}
+  <GunPrefab>k__BackingField: {fileID: 2356162727110232616, guid: 8a2199e0f5d3f0f48aae15956bc202b0, type: 3}
+  <BulletPrefab>k__BackingField: {fileID: 3219042684586212542, guid: c072cb88d4bb44d4bb9ed11a25d40cdb, type: 3}
+  <GunType>k__BackingField: 2
+  <ReloadScale>k__BackingField: 1.3
+  <BulletTimeLife>k__BackingField: 6
