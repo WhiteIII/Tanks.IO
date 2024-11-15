@@ -3,7 +3,12 @@ using UnityEngine;
 
 public class EnemyShootTheGun : EntityShoot
 {
+    [field: SerializeField] public float AttackDistance { get; private set; }
+    
+    public bool CoolDown { get; private set; } = true;
+    
     [SerializeField] private EnemyAttackArea _enemyAttackArea;
+    
     private Rigidbody _rigidbody;
     private EnemyMovement _enemyMovement;
     private ITank _enemyTank;
@@ -77,7 +82,7 @@ public class EnemyShootTheGun : EntityShoot
             }
             
             CalculateKickback.GetKickback();
-
+            
             yield return new WaitForSeconds(_enemyTank.AttackSpeed * 0.5f * GunDataList.GunDatas[0].ReloadScale);
             _rigidbody.velocity = Vector3.zero;
             
@@ -85,6 +90,11 @@ public class EnemyShootTheGun : EntityShoot
         }
 
         Shooting = false;
+    }
+
+    public void Shoot()
+    {
+        Gun.Shoot();
     }
 
     private void ChangeGun(GunType gunType)

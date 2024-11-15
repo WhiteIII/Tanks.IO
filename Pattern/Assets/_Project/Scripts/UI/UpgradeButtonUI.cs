@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -5,7 +6,9 @@ using Zenject;
 
 public class UpgradeButtonUI : MonoBehaviour, IPointerDownHandler
 {
-    [SerializeField] private UpgradePanelAnimation _panelAnimation;
+    public event Action OnOpen;
+    public event Action OnClose;
+     
     [SerializeField] private UpgradeSelection _upgradeSelection;
     [SerializeField] private TextMeshProUGUI _textMeshProUGUI;
 
@@ -38,12 +41,12 @@ public class UpgradeButtonUI : MonoBehaviour, IPointerDownHandler
     {
         if (_isDisplay == false)
         {
-            _panelAnimation.ShowPanel();
+            OnOpen?.Invoke();
             _isDisplay = true;
         }
         else
         {
-            _panelAnimation.HidePanel();
+            OnClose?.Invoke();
             _isDisplay = false;
         }
     }

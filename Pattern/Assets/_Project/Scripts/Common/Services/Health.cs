@@ -6,7 +6,7 @@ public abstract class Health : MonoBehaviour, IEntityHealth
     public int MaxHealth { get; protected set; }
     public int HealthValue { get; protected set; }
     public EntityType EntityType { get; protected set; }
-
+    
     public virtual event Action HealthHasChanged;
     public virtual event Action<Health> Death;
 

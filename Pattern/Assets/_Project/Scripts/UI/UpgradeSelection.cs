@@ -5,7 +5,7 @@ using Zenject;
 
 public class UpgradeSelection : MonoBehaviour
 {
-    [SerializeField] private UpgradeUIState[] _upgradeUIState;
+    [field: SerializeField] public UpgradeUIState[] UpgradeUIState { get; private set; }
     
     public bool IsActive { get; private set; } = false;
     
@@ -21,7 +21,7 @@ public class UpgradeSelection : MonoBehaviour
 
     private void Start()
     {
-        foreach (var upgrade in _upgradeUIState)
+        foreach (var upgrade in UpgradeUIState)
         {
             upgrade.Deactivate();
         }
@@ -36,7 +36,7 @@ public class UpgradeSelection : MonoBehaviour
 
     private void PanelSetActive()
     {
-        foreach (var upgrade in _upgradeUIState)
+        foreach (var upgrade in UpgradeUIState)
         {
             upgrade.Activate();
         }
@@ -52,7 +52,7 @@ public class UpgradeSelection : MonoBehaviour
         {
             IsActive = false;
             
-            foreach (var upgrade in _upgradeUIState)
+            foreach (var upgrade in UpgradeUIState)
             {
                 upgrade.Deactivate();
             }

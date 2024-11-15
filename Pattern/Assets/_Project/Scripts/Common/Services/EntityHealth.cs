@@ -7,6 +7,11 @@ public class EntityHealth : Health
     public event Action<EntityHealth> EntityDeath;
     public event Action Reborn;
 
+    public bool CriticalValue => 
+        HealthValue <= MaxHealth * _criticalValuePercent;
+
+    private readonly float _criticalValuePercent = 0.25f;
+        
     private EntityHealth _entityHealth;
     private IEntityDamagable _damagableEnemy;
 
