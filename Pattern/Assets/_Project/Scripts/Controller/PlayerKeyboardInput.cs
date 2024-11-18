@@ -13,4 +13,3 @@ public class PlayerKeyboardInput : MonoBehaviour, IMoveableInput
         Move = transform.right * x + transform.forward * z;
     }
 }
-

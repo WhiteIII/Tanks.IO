@@ -1,6 +1,5 @@
 using UnityEngine;
 using Zenject;
-using DG.Tweening;
 using System;
 
 public class GunUpgradePanel : MonoBehaviour
@@ -30,10 +29,14 @@ public class GunUpgradePanel : MonoBehaviour
     {
         _transform = GetComponent<RectTransform>();
 
-        Vector3 transformLengthToShow = new Vector3(_transform.localPosition.x, Camera.main.scaledPixelHeight, _transform.localPosition.z);
-        Vector3 transformLengthToHide = _transform.localPosition;
-
-        Debug.Log(transformLengthToShow + " | " + transformLengthToHide);
+        Vector3 transformLengthToShow = new Vector3(
+                                            _transform.localPosition.x, 
+                                            Camera.main.scaledPixelHeight * 1.2f, 
+                                            _transform.localPosition.z);
+        Vector3 transformLengthToHide = new Vector3(
+                                            _transform.localPosition.x, 
+                                            _transform.position.y + Camera.main.scaledPixelHeight, 
+                                            _transform.localPosition.z);
 
         _panelAnimation.Init(transformLengthToShow, transformLengthToHide, _duration, true);
         
@@ -69,13 +72,11 @@ public class GunUpgradePanel : MonoBehaviour
 
     private void ShowUpgradePanel()
     {
-        //_transform.DOLocalMove(new Vector3(_transform.localPosition.x, 460f, 0f), 0.8f, true);
         _panelAnimation.ShowPanel();
     }
 
     private void HideUpgradePanel()
     {
-        //_transform.DOLocalMove(new Vector3(_transform.localPosition.x, 840f, 0f), 0.8f, true);
         _panelAnimation.HidePanel();
         IsActive = false;
     }

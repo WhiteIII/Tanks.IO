@@ -7,7 +7,7 @@ public class SceneInstaller : MonoInstaller
     [SerializeField] private TargetsContainer _targetContainer;
     [SerializeField] private TankRotationJoystick _joystickRotationJoystick;
     [SerializeField] private TankRotation _tankRotation;
-    
+
     public override void InstallBindings()
     {
         Container.Bind<TankController>().FromInstance(_controller).AsSingle();

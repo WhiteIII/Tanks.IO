@@ -11,15 +11,18 @@ public class BattleInstaller : MonoInstaller
     [Inject] private DiContainer _diContainer;
 
     private GlobalBulletObjectPool _bulletObjectPool;
+    private PlayerUpgradeController _playerUpgradeController;
 
     public override void InstallBindings()
     {
         _bulletObjectPool = new GlobalBulletObjectPool(_diContainer);
+        _playerUpgradeController = new PlayerUpgradeController(_playerData);
         
         Container.Bind<UIElementsListData>().FromInstance(_uIElementsListData).AsSingle();
         Container.Bind<PlayerData>().FromInstance(_playerData).AsSingle();
         Container.Bind<GunsDataList>().FromInstance(_gunsDataList).AsSingle();
         Container.Bind<GameRules>().FromInstance(_gameRules).AsSingle();
         Container.Bind<GlobalBulletObjectPool>().FromInstance(_bulletObjectPool).AsSingle();
+        Container.Bind<PlayerUpgradeController>().FromInstance(_playerUpgradeController).AsSingle();
     }
 }
