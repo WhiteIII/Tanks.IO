@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Health>k__BackingField: 100
   <BodyDamage>k__BackingField: 10
-  <Heal>k__BackingField: 0
+  <Heal>k__BackingField: 2
   <Damage>k__BackingField: 10
   <Speed>k__BackingField: 2
   <AttackSpeed>k__BackingField: 1
   <BulletSpeed>k__BackingField: 3
-  <BulletPenetration>k__BackingField: 0
+  <BulletPenetration>k__BackingField: 1
   <CountOfPoints>k__BackingField: 0
   <Level>k__BackingField: 0
   <GunType>k__BackingField: 0

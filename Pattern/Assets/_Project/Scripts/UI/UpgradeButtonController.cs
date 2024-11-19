@@ -39,10 +39,10 @@ public class UpgradeButtonController
 
     public void BlockUpgrade() =>
         _button.enabled = false && IsActive;
-
-    public void OnDestroy() =>
-        _button.onClick.RemoveListener(Upgrade);
     
     public void AllowUpgrade() =>
         _button.enabled = true && IsActive;
+
+    public void OnDestroy() =>
+        _button.onClick.RemoveListener(Upgrade);
 }

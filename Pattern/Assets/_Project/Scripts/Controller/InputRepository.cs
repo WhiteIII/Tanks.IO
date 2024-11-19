@@ -8,7 +8,8 @@ public class InputRepository : MonoBehaviour
     {
         foreach (var input in _movementInputs)
         {
-
+            if (input.IsActive)
+            { }
         }
     }
 }

@@ -6,7 +6,7 @@ public class GameLoader : MonoBehaviour
 {
     [SerializeField] private int _tweenersCapacity = 2000;
     [SerializeField] private int _sequencesCapacity = 100;
-    [SerializeField] private UpgradePanelsFacrory _upgradePanelsFacrory;
+    [SerializeField] private UpgradePanelsFactory _upgradePanelsFactory;
     [SerializeField] private UpgradePanelConfig _upgradePanelConfig;
     
     private PlayerData _playerData;
@@ -18,9 +18,6 @@ public class GameLoader : MonoBehaviour
         _playerData = playerData;
         _gameRules = gameRules;
         _playerUpgradeController = playerUpgradeController;
-
-        for (int i = 0; i < (int)Upgrades.BulletPenetration; i++) 
-            _upgradePanelsFacrory.Create();
 
         _playerData.PlayerDataLoad();
         _gameRules.Init();

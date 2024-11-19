@@ -57,80 +57,104 @@ public class UpgradeButton : MonoBehaviour
     public event Action OnUpgrade;
     
     [SerializeField] private Button _button;
+    [SerializeField] private PlayerLevelViewController _levelViewController;
     
     private UpgradeButtonController _controller;
     private UpgradeButtonView _view;
     private UpgradeButtonViewController _viewController;
     private UpgradePanelViewController _upgradePanelViewController;
     private UpgradeButtonModel _model;
+    private PlayerUpgradeController _playerUpgradeController;
     private IUpgradable _playerData;
 
-    [Inject] private void Construct(PlayerData playerData) =>
+    [Inject] private void Construct(PlayerUpgradeController playerUpgradeController, PlayerData playerData)
+    {
+        _playerUpgradeController = playerUpgradeController;
         _playerData = playerData;
+    }
 
-    public void Init(int maxCountOfUpgrades, UpgradePanelViewController upgradePanelViewController)
+    public void Init(int maxCountOfUpgrades, 
+        UpgradePanelViewController upgradePanelViewController, Upgrades upgrade)
     {
         _upgradePanelViewController = upgradePanelViewController;
 
         _view = new UpgradeButtonView(_button.image);
         _viewController = new UpgradeButtonViewController(_view);
         _controller = new UpgradeButtonController(_button, maxCountOfUpgrades);
-        _model = new UpgradeButtonModel(_playerData);
+        _model = new UpgradeButtonModel(_playerUpgradeController, upgrade, this, _playerData);
+        _levelViewController.Init(_model);
 
         _controller.OnUpgrade += Upgraded;
+        _model.PlayerLevelChanged += ChangeButtonActive;
     }
 
     private void OnDestroy()
     {
+        _model.PlayerLevelChanged -= ChangeButtonActive;
         _controller.OnUpgrade -= Upgraded;
         _controller.OnDestroy();
+        _model.OnDestroy();
     }
 
     private void Upgraded()
     {
         OnUpgrade?.Invoke();
+        _upgradePanelViewController.DrawNewState();
     }
 
-    
-}
-
-public class UpgradePanelViewController
-{ 
-    private readonly UIElementRepository _elementRepository;
-    private readonly UpgradePanelView _view = new();
-
-    public UpgradePanelViewController(UIElementRepository elementRepository)
+    private void ChangeButtonActive(bool isActive)
     {
-        _elementRepository = elementRepository;
-
-        _elementRepository.OffAllObjects();
+        if (isActive)
+        {
+            _controller.AllowUpgrade();
+            _viewController.ActivateButton();
+        }
+        else
+        {
+            _controller.BlockUpgrade();
+            _viewController.DeactivateButton();
+        }
     }
-
-    public void DrawNewState()
-    {
-        if (_elementRepository.IsNotEmpty == false)
-            return;
-        
-        GameObject uIElement = _elementRepository.GetAndUnregister();
-        _view.DrawNewState(uIElement);
-    }
-}
-
-
-public class UpgradePanelView
-{
-    public void DrawNewState(GameObject uIElement) =>
-        uIElement.SetActive(false);
 }
 
 public class UpgradeButtonModel
 {
+    public event Action<bool> PlayerLevelChanged;
+    
+    public bool PossibilityForUpgrade => _playerData.NumberOfUpgrades > 0;
+    public int NumberOfUpgrades => _playerData.NumberOfUpgrades;
+    public int PlayerLevel => _playerData.Level;  
+
+    private readonly PlayerUpgradeController _controller;
+    private readonly Upgrades _upgrade;
+    private readonly UpgradeButton _upgradeButton;
     private readonly IUpgradable _playerData;
 
-    public UpgradeButtonModel(IUpgradable playerData) =>
+    public UpgradeButtonModel(PlayerUpgradeController playerUpgradeController, 
+        Upgrades upgrade, UpgradeButton upgradeButton, IUpgradable playerData)
+    {
+        _controller = playerUpgradeController;
+        _upgrade = upgrade;
+        _upgradeButton = upgradeButton;
         _playerData = playerData;
 
+        _upgradeButton.OnUpgrade += Upgrade;
+        playerData.LevelChange += LevelChanged;
+    }
 
+    private void Upgrade()
+    {
+        _controller.Upgrade(_upgrade);
+    }
+
+    public void OnDestroy()
+    {
+        _upgradeButton.OnUpgrade -= Upgrade;
+        _playerData.LevelChange -= LevelChanged;
+    }
+
+    private void LevelChanged() =>
+        PlayerLevelChanged?.Invoke(PossibilityForUpgrade);
 }
 
 public class UpgradeButtonViewController

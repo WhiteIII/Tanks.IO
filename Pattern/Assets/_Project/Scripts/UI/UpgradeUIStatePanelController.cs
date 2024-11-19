@@ -12,20 +12,23 @@ public class UpgradeUIStatePanelController : MonoBehaviour
 
     private readonly UIElementRepository _elementRepository = new();
 
-    private void Awake()
+    public void SetPanel(UpgradePanelConfig config, Color elementColor, Upgrades upgrade)
     {
+        Config = config;
+        _elementColor = elementColor;
+
         ImagePanelController imagePanelController;
         UpgradePanelViewController upgradePanelViewController;
-        
+
         if (TryGetComponent(out GridLayoutGroup _) == false)
             gameObject.AddComponent<GridLayoutGroup>();
 
         imagePanelController = new ImagePanelController(
-                                                    Config.UIElement.GetComponent<RectTransform>(), 
+                                                    Config.UIElement.GetComponent<RectTransform>(),
                                                     gameObject.GetComponent<GridLayoutGroup>(),
                                                     Config.CountOfUpgrades);
-        
-        for (int i = 0;  i < Config.CountOfUpgrades; i++)
+
+        for (int i = 0; i < Config.CountOfUpgrades; i++)
         {
             GameObject uIElementClone = Factory.Create();
             uIElementClone.GetComponent<Image>().color = _elementColor;
@@ -34,7 +37,7 @@ public class UpgradeUIStatePanelController : MonoBehaviour
 
         upgradePanelViewController = new UpgradePanelViewController(_elementRepository);
 
-        Config.UpgradeButton.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades, upgradePanelViewController);
+        Config.UpgradeButton.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades, upgradePanelViewController, upgrade);
         imagePanelController.DrawPanel();
     }
 }
