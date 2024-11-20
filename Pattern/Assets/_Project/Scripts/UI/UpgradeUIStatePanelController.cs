@@ -3,20 +3,25 @@ using UnityEngine.UI;
 
 public class UpgradeUIStatePanelController : MonoBehaviour
 {
+    
     private RectTransform RectTransform => GetComponent<RectTransform>();
     private GridLayoutGroupUIFactory Factory => new(Config.UIElement, RectTransform);
 
-    [field: SerializeField] public UpgradePanelConfig Config { get; private set; }
-    
-    [SerializeField] private Color _elementColor;
+    public UpgradePanelConfig Config { get; private set; }
 
+    [SerializeField] private RectTransform _panelViewTransform;
+    
     private readonly UIElementRepository _elementRepository = new();
 
-    public void SetPanel(UpgradePanelConfig config, Color elementColor, Upgrades upgrade)
+    private Color _elementColor;
+
+    public void SetPanel(UpgradePanelConfig config, Color elementColor, 
+        Upgrades upgrade, UpgradeButtonFactory upgradeButtonFactory)
     {
         Config = config;
         _elementColor = elementColor;
 
+        GameObject buttonPrefab;
         ImagePanelController imagePanelController;
         UpgradePanelViewController upgradePanelViewController;
 
@@ -24,7 +29,7 @@ public class UpgradeUIStatePanelController : MonoBehaviour
             gameObject.AddComponent<GridLayoutGroup>();
 
         imagePanelController = new ImagePanelController(
-                                                    Config.UIElement.GetComponent<RectTransform>(),
+                                                    _panelViewTransform,
                                                     gameObject.GetComponent<GridLayoutGroup>(),
                                                     Config.CountOfUpgrades);
 
@@ -37,7 +42,9 @@ public class UpgradeUIStatePanelController : MonoBehaviour
 
         upgradePanelViewController = new UpgradePanelViewController(_elementRepository);
 
-        Config.UpgradeButton.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades, upgradePanelViewController, upgrade);
+        buttonPrefab = upgradeButtonFactory.Create(RectTransform);
+
+        buttonPrefab.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades, upgradePanelViewController, upgrade);
         imagePanelController.DrawPanel();
     }
 }

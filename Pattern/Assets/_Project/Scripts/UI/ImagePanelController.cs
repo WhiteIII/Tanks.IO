@@ -20,6 +20,16 @@ public class ImagePanelController
         float width = (_layoutGroup.cellSize.x * _uIElementCount 
             + _layoutGroup.spacing.x * (_uIElementCount - 1)) * 1.05f;
 
-        _transformPanel.localScale = new Vector2(width, heigth);
+        _transformPanel.sizeDelta = new Vector2(width, heigth);
+    }
+
+    public static void DrawPanelWhthParameters(GridLayoutGroup panelGridLayoutGroup, 
+        GridLayoutGroup arrayPanelsGridLayoutGroup, int uIElementCount)
+    {
+        float heigth = panelGridLayoutGroup.cellSize.y * 1.1f;
+        float width = (panelGridLayoutGroup.cellSize.x * uIElementCount
+            + panelGridLayoutGroup.spacing.x * (uIElementCount - 1)) * 1.05f;
+
+        arrayPanelsGridLayoutGroup.cellSize = new Vector2(width, heigth);
     }
 }

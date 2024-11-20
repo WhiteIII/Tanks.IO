@@ -26,7 +26,7 @@ public class UpgradeButtonController
         OnUpgrade?.Invoke();
         _countOfUpgrades++;
 
-        if (_countOfUpgrades == _maxCountOfUpgrades - 1) 
+        if (_countOfUpgrades == _maxCountOfUpgrades) 
             DeactivateButton();
     }
 

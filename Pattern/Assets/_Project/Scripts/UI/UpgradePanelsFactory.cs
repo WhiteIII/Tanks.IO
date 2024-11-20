@@ -15,12 +15,18 @@ public class UpgradePanelsFactory : MonoBehaviour
             gameObject.AddComponent<GridLayoutGroup>();
     }
 
-    public void Create()
+    public void Create(UpgradePanelConfig upgradePanelConfig, 
+        UpgradeButtonFactory upgradeButtonFactory)
     {
         for (int i = 0; i < (int)Upgrades.BulletPenetration; i++)
         {
             GameObject panelObject = Factory.Create();
-
+            panelObject.GetComponentInChildren<UpgradeUIStatePanelController>().
+                SetPanel(upgradePanelConfig, _colors[i].Color, _colors[i].Upgrades, upgradeButtonFactory);
+            ImagePanelController.DrawPanelWhthParameters(
+                                                    panelObject.GetComponentInChildren<GridLayoutGroup>(), 
+                                                    GetComponent<GridLayoutGroup>(), 
+                                                    upgradePanelConfig.CountOfUpgrades);
         }
     }
 }

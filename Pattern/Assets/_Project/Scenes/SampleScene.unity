@@ -2627,7 +2627,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 6225887563768185997}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -5015,10 +5015,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -11350,11 +11350,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tweenersCapacity: 2000
   _sequencesCapacity: 100
-  _upgradePanelsFactory: {fileID: 0}
+  _upgradePanelsFactory: {fileID: 2035610340}
   _upgradePanelConfig:
     <UIElement>k__BackingField: {fileID: 3019583847078612676, guid: 8fb4f9e6e3f1bd84f8e9c6e998b96ce2, type: 3}
     <UpgradeButton>k__BackingField: {fileID: 1391229352210434552, guid: 50b6de13100d8164dad70e4899de0800, type: 3}
-    <CountOfUpgrades>k__BackingField: 10
+    <CountOfUpgrades>k__BackingField: 3
 --- !u!4 &914413443
 Transform:
   m_ObjectHideFlags: 0
@@ -24290,7 +24290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2035610337
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24307,7 +24307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 141.23}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2035610339
@@ -24331,7 +24331,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 0, y: 0}
+  m_Spacing: {x: 10, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &2035610340
@@ -24346,23 +24346,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c31b645ba9356a428c9ab929556d662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _panel: {fileID: 1391229352210434552, guid: 50b6de13100d8164dad70e4899de0800, type: 3}
+  _panel: {fileID: 3880669817954419033, guid: 02dc089b2720b1d4e93637c6006fb5e2, type: 3}
   _colors:
-  - Color: {r: 1, g: 0.14901961, b: 0.14901961, a: 0}
+  - Color: {r: 1, g: 0.14901961, b: 0.14901961, a: 1}
     Upgrades: 0
-  - Color: {r: 1, g: 0.37254903, b: 0.9607844, a: 0}
+  - Color: {r: 1, g: 0.37254903, b: 0.9607844, a: 1}
     Upgrades: 1
-  - Color: {r: 1, g: 0.9960785, b: 0.25882354, a: 0}
+  - Color: {r: 1, g: 0.9960785, b: 0.25882354, a: 1}
     Upgrades: 2
-  - Color: {r: 0.97647065, g: 0.6627451, b: 0.30588236, a: 0}
+  - Color: {r: 0.97647065, g: 0.6627451, b: 0.30588236, a: 1}
     Upgrades: 3
-  - Color: {r: 0.7490196, g: 0.28235295, b: 0.9803922, a: 0}
+  - Color: {r: 0.7490196, g: 0.28235295, b: 0.9803922, a: 1}
     Upgrades: 4
-  - Color: {r: 0.4156863, g: 1, b: 0.95294124, a: 0}
+  - Color: {r: 0.4156863, g: 1, b: 0.95294124, a: 1}
     Upgrades: 5
-  - Color: {r: 0.3921569, g: 0.40784317, b: 0.91372555, a: 0}
+  - Color: {r: 0.3921569, g: 0.40784317, b: 0.91372555, a: 1}
     Upgrades: 6
-  - Color: {r: 0.44705886, g: 0.9450981, b: 0.40784317, a: 0}
+  - Color: {r: 0.44705886, g: 0.9450981, b: 0.40784317, a: 1}
     Upgrades: 7
 --- !u!1 &2071445503
 GameObject:
@@ -25632,6 +25632,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Point
       objectReference: {fileID: 0}
+    - target: {fileID: 3019583847078612676, guid: 8fb4f9e6e3f1bd84f8e9c6e998b96ce2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5659916371000057367, guid: 8fb4f9e6e3f1bd84f8e9c6e998b96ce2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -25663,6 +25667,18 @@ PrefabInstance:
     - target: {fileID: 5659916371000057367, guid: 8fb4f9e6e3f1bd84f8e9c6e998b96ce2, type: 3}
       propertyPath: m_SizeDelta.y
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5659916371000057367, guid: 8fb4f9e6e3f1bd84f8e9c6e998b96ce2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5659916371000057367, guid: 8fb4f9e6e3f1bd84f8e9c6e998b96ce2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5659916371000057367, guid: 8fb4f9e6e3f1bd84f8e9c6e998b96ce2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5659916371000057367, guid: 8fb4f9e6e3f1bd84f8e9c6e998b96ce2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25712,6 +25728,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5659916371000057367, guid: 8fb4f9e6e3f1bd84f8e9c6e998b96ce2, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25733,6 +25753,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 308429277}
+    - target: {fileID: 7633283092623262651, guid: 50b6de13100d8164dad70e4899de0800, type: 3}
+      propertyPath: _levelViewController
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7764605431215166169, guid: 50b6de13100d8164dad70e4899de0800, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -25813,8 +25837,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 7633283092623262651, guid: 50b6de13100d8164dad70e4899de0800, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 2357833771523728768, guid: 50b6de13100d8164dad70e4899de0800, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50b6de13100d8164dad70e4899de0800, type: 3}
