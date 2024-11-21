@@ -14,20 +14,22 @@ public class GameLoader : MonoBehaviour
     private GameRules _gameRules;
     private UpgradeButtonFactory _upgradeButtonFactory;
 
+    [Inject(Id = "UpgradePanelCanvas")] private Canvas _upgradeCanvas;
+
     [Inject] private void Construct(PlayerData playerData, GameRules gameRules, 
         PlayerUpgradeController playerUpgradeController, DiContainer diContainer)
     {
         _playerData = playerData;
         _gameRules = gameRules;
         _playerUpgradeController = playerUpgradeController;
-        _upgradeButtonFactory = new(_upgradePanelConfig.UpgradeButton, diContainer);
+        _upgradeButtonFactory = new(_upgradePanelConfig.UpgradeButton, diContainer, _upgradePanelConfig.CountOfUpgrades);
 
         _playerData.PlayerDataLoad();
         _gameRules.Init();
 
         DOTween.SetTweensCapacity(_tweenersCapacity, _sequencesCapacity);
 
-        _upgradePanelsFactory.Create(_upgradePanelConfig, _upgradeButtonFactory);
+        _upgradePanelsFactory.Create(_upgradePanelConfig, _upgradeButtonFactory, _upgradeCanvas);      
     }
 
     private void OnDestroy()

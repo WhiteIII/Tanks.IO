@@ -9,7 +9,7 @@ public class UpgradePanelViewController
     {
         _elementRepository = elementRepository;
 
-        //_elementRepository.OffAllObjects();
+        _elementRepository.OffAllObjects();
     }
 
     public void DrawNewState()

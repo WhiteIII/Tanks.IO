@@ -7,6 +7,7 @@ public class SceneInstaller : MonoInstaller
     [SerializeField] private TargetsContainer _targetContainer;
     [SerializeField] private TankRotationJoystick _joystickRotationJoystick;
     [SerializeField] private TankRotation _tankRotation;
+    [SerializeField] private Canvas _upgradePanelCanvas;
 
     public override void InstallBindings()
     {
@@ -14,5 +15,6 @@ public class SceneInstaller : MonoInstaller
         Container.Bind<TargetsContainer>().FromInstance(_targetContainer).AsSingle();
         Container.Bind<TankRotationJoystick>().FromInstance(_joystickRotationJoystick).AsSingle();
         Container.Bind<TankRotation>().FromInstance(_tankRotation).AsSingle();
+        Container.Bind<Canvas>().WithId("UpgradePanelCanvas").FromInstance(_upgradePanelCanvas).AsSingle();
     }
 }

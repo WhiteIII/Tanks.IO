@@ -1,8 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UpgradePanelsFactory : MonoBehaviour 
 {
+    private PlayerLevelViewPositionController PlayerLevelViewPositionController => new(
+                                                        _playerLevelViewController.GetComponent<RectTransform>(),
+                                                        GetComponent<GridLayoutGroup>(),
+                                                        (int)Upgrades.BulletPenetration + 1);
     private RectTransform RectTransform => GetComponent<RectTransform>();
     private GridLayoutGroupUIFactory Factory => new(_panel, RectTransform);
 
@@ -17,17 +23,20 @@ public class UpgradePanelsFactory : MonoBehaviour
     }
 
     public void Create(UpgradePanelConfig upgradePanelConfig, 
-        UpgradeButtonFactory upgradeButtonFactory)
+        UpgradeButtonFactory upgradeButtonFactory, Canvas upgradePanelCanvas)
     {
         for (int i = 0; i < (int)Upgrades.BulletPenetration + 1; i++)
         {
             GameObject panelObject = Factory.Create();
             panelObject.GetComponentInChildren<UpgradeUIStatePanelController>().
-                SetPanel(upgradePanelConfig, _colors[i].Color, _colors[i].Upgrades, upgradeButtonFactory, _playerLevelViewController);
+                SetPanel(upgradePanelConfig, _colors[i].Color, _colors[i].Upgrades, upgradeButtonFactory, 
+                _playerLevelViewController, upgradePanelCanvas);
             ImagePanelController.DrawPanelWhthParameters(
                                                     panelObject.GetComponentInChildren<GridLayoutGroup>(), 
                                                     GetComponent<GridLayoutGroup>(), 
                                                     upgradePanelConfig.CountOfUpgrades);
         }
+
+        PlayerLevelViewPositionController.SetPosition();
     }
 }

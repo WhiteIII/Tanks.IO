@@ -16,7 +16,7 @@ public class UpgradeUIStatePanelController : MonoBehaviour
 
     public void SetPanel(UpgradePanelConfig config, Color elementColor, 
         Upgrades upgrade, UpgradeButtonFactory upgradeButtonFactory, 
-        PlayerLevelViewController playerLevelViewController)
+        PlayerLevelViewController playerLevelViewController, Canvas upgradePanelCanvas)
     {
         Config = config;
         _elementColor = elementColor;
@@ -36,7 +36,8 @@ public class UpgradeUIStatePanelController : MonoBehaviour
 
         upgradePanelViewController = new UpgradePanelViewController(_elementRepository);
 
-        buttonPrefab = upgradeButtonFactory.Create(RectTransform);
+        buttonPrefab = upgradeButtonFactory.Create(GetComponent<RectTransform>().localPosition, 
+            GetComponent<GridLayoutGroup>(), upgradePanelCanvas.GetComponent<RectTransform>());
 
         buttonPrefab.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades, 
             upgradePanelViewController, upgrade, playerLevelViewController);
