@@ -11031,7 +11031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 960
+      value: 468.95
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230, type: 3}
       propertyPath: m_SizeDelta.y
@@ -11354,7 +11354,7 @@ MonoBehaviour:
   _upgradePanelConfig:
     <UIElement>k__BackingField: {fileID: 3019583847078612676, guid: 8fb4f9e6e3f1bd84f8e9c6e998b96ce2, type: 3}
     <UpgradeButton>k__BackingField: {fileID: 1391229352210434552, guid: 50b6de13100d8164dad70e4899de0800, type: 3}
-    <CountOfUpgrades>k__BackingField: 3
+    <CountOfUpgrades>k__BackingField: 10
 --- !u!4 &914413443
 Transform:
   m_ObjectHideFlags: 0
@@ -13985,11 +13985,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 960
+      value: 2042.5
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 645
+      value: 468.7
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230, type: 3}
       propertyPath: m_LocalPosition.x

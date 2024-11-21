@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class PlayerUpgradeController
 {
     private delegate void UpgradeStats();
+
+    public event Action OnUpgrade;
 
     private readonly IUpgradable _playerData;
     private readonly Dictionary<Upgrades, UpgradeStats> _upgradeStats = new();
@@ -21,6 +24,9 @@ public class PlayerUpgradeController
         _upgradeStats.Add(Upgrades.BulletPenetration, _playerData.UpgradeBulletPenetration);
     }
 
-    public void Upgrade(Upgrades upgrade) =>
+    public void Upgrade(Upgrades upgrade)
+    {
         _upgradeStats[upgrade].Invoke();
+        OnUpgrade?.Invoke();
+    }
 }

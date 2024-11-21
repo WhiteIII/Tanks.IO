@@ -25,9 +25,11 @@ public class UpgradeButton : MonoBehaviour
     }
 
     public void Init(int maxCountOfUpgrades, 
-        UpgradePanelViewController upgradePanelViewController, Upgrades upgrade)
+        UpgradePanelViewController upgradePanelViewController, Upgrades upgrade, 
+        PlayerLevelViewController playerLevelViewController)
     {
         _upgradePanelViewController = upgradePanelViewController;
+        _levelViewController = playerLevelViewController;
 
         _view = new UpgradeButtonView(_button.image);
         _viewController = new UpgradeButtonViewController(_view);

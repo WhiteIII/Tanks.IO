@@ -2,11 +2,11 @@ using System;
 
 public interface IUpgradable : IGunUpgradable, ITankUpradable
 {
+    public event Action LevelChange;
+    
     public int NumberOfUpgrades { get; }
     public int Level { get; }
     public int CountOfPoints { get; }
-
-    public event Action LevelChange;
 
     public void UpgradeHealth();
 

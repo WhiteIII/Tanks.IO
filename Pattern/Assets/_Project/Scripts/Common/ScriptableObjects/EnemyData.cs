@@ -4,6 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Game", menuName = "Game/Enemy")]
 public class EnemyData : TargetData, ITank, IUpgradable
 {
+    public event Action LevelChange;
+    public event Action<GunType> GunChanging;
+    public event Action PointsCountChange;
+    
     [field: SerializeField] public int Damage { get; private set; }
     [field: SerializeField] public float AttackSpeed { get; private set; }
     [field: SerializeField] public float BulletSpeed { get; private set; }
@@ -16,11 +20,6 @@ public class EnemyData : TargetData, ITank, IUpgradable
     public int NumberOfUpgrades { get; private set; } = 0;
 
     public int Level { get; private set; }
-
-
-    public event Action LevelChange;
-    public event Action<GunType> GunChanging;
-    public event Action PointsCountChange;
 
     private float _pointsCountForNextUpgrade = 30;
     private float _pointForUpgrade = 0;
@@ -158,8 +157,8 @@ public class EnemyData : TargetData, ITank, IUpgradable
         if (AttackSpeed - 0.03f >= 0)
         {
             AttackSpeed -= 0.03f;
+            NumberOfUpgrades--;
         }
-        NumberOfUpgrades--;
     }
 
     public void UpgradeBulletSpeed()

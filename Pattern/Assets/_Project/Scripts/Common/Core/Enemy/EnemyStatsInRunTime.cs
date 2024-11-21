@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class EnemyStatsInRunTime : ITank, IUpgradable, IEntityDamagable
 {
+    public event Action PointsCountChange;
+    public event Action LevelChange;
+    public event Action<GunType> GunChanging;
+    
     public int BodyDamage { get; protected set; }
     public int Health { get; private set; }
     public int Heal { get; private set; }
@@ -17,11 +21,6 @@ public class EnemyStatsInRunTime : ITank, IUpgradable, IEntityDamagable
     public GunType GunType { get; private set; }
 
     public int NumberOfUpgrades { get; private set; } = 0;
-
-
-    public event Action PointsCountChange;
-    public event Action LevelChange;
-    public event Action<GunType> GunChanging;
 
     private float _pointsCountForNextUpgrade = 30;
     private float _pointForUpgrade = 0;
@@ -234,8 +233,8 @@ public class EnemyStatsInRunTime : ITank, IUpgradable, IEntityDamagable
         if (AttackSpeed - 0.01f >= 0)
         {
             AttackSpeed -= 0.01f;
+            NumberOfUpgrades--;
         }
-        NumberOfUpgrades--;
     }
 
     public void UpgradeBulletSpeed()

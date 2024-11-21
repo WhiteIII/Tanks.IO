@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class UpgradeUIStatePanelController : MonoBehaviour
 {
-    
     private RectTransform RectTransform => GetComponent<RectTransform>();
     private GridLayoutGroupUIFactory Factory => new(Config.UIElement, RectTransform);
 
@@ -16,22 +15,17 @@ public class UpgradeUIStatePanelController : MonoBehaviour
     private Color _elementColor;
 
     public void SetPanel(UpgradePanelConfig config, Color elementColor, 
-        Upgrades upgrade, UpgradeButtonFactory upgradeButtonFactory)
+        Upgrades upgrade, UpgradeButtonFactory upgradeButtonFactory, 
+        PlayerLevelViewController playerLevelViewController)
     {
         Config = config;
         _elementColor = elementColor;
 
         GameObject buttonPrefab;
-        ImagePanelController imagePanelController;
         UpgradePanelViewController upgradePanelViewController;
 
         if (TryGetComponent(out GridLayoutGroup _) == false)
             gameObject.AddComponent<GridLayoutGroup>();
-
-        imagePanelController = new ImagePanelController(
-                                                    _panelViewTransform,
-                                                    gameObject.GetComponent<GridLayoutGroup>(),
-                                                    Config.CountOfUpgrades);
 
         for (int i = 0; i < Config.CountOfUpgrades; i++)
         {
@@ -44,7 +38,7 @@ public class UpgradeUIStatePanelController : MonoBehaviour
 
         buttonPrefab = upgradeButtonFactory.Create(RectTransform);
 
-        buttonPrefab.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades, upgradePanelViewController, upgrade);
-        imagePanelController.DrawPanel();
+        buttonPrefab.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades, 
+            upgradePanelViewController, upgrade, playerLevelViewController);
     }
 }

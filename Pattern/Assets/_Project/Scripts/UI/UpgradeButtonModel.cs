@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class UpgradeButtonModel
 {
@@ -22,18 +23,18 @@ public class UpgradeButtonModel
         _playerData = playerData;
 
         _upgradeButton.OnUpgrade += Upgrade;
-        playerData.LevelChange += LevelChanged;
+        _playerData.LevelChange += LevelChanged;
+        _controller.OnUpgrade += LevelChanged;
     }
 
-    private void Upgrade()
-    {
+    private void Upgrade() =>
         _controller.Upgrade(_upgrade);
-    }
 
     public void OnDestroy()
     {
         _upgradeButton.OnUpgrade -= Upgrade;
         _playerData.LevelChange -= LevelChanged;
+        _controller.OnUpgrade -= LevelChanged;
     }
 
     private void LevelChanged() =>

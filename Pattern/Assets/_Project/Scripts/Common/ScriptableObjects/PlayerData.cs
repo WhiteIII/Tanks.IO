@@ -4,6 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Game", menuName = "Game/Player")]
 public class PlayerData : EntityData, ITank, IUpgradable, IPlayerDamagable
 {
+    public event Action PointsCountChange;
+    public event Action LevelChange;
+    public event Action<GunType> GunChanging;
+    
     [field: SerializeField] public int Heal { get; private set; }
     [field: SerializeField] public int Damage {  get; private set; }
     [field: SerializeField] public float Speed { get; private set; }
@@ -15,10 +19,6 @@ public class PlayerData : EntityData, ITank, IUpgradable, IPlayerDamagable
     [field: SerializeField] public GunType GunType { get; private set; }
 
     public int NumberOfUpgrades { get; private set; } = 0;
-
-    public event Action PointsCountChange;
-    public event Action LevelChange;
-    public event Action<GunType> GunChanging;
 
     private float _pointsCountForNextUpgrade = 30;
     private float _pointForUpgrade = 0;
@@ -150,8 +150,8 @@ public class PlayerData : EntityData, ITank, IUpgradable, IPlayerDamagable
         if (AttackSpeed - 0.01f >= 0)
         {
             AttackSpeed -= 0.01f;
+            NumberOfUpgrades--;
         }
-        NumberOfUpgrades--;
     }
 
     public void UpgradeBulletSpeed()
