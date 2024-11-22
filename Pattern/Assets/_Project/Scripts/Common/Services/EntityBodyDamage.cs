@@ -1,19 +1,23 @@
+using TanksIO.Common.Core.Player;
 using UnityEngine;
 
-public class EntityBodyDamage : MonoBehaviour
+namespace TanksIO.Common.Services
 {
-    private IBodyAttackable _entityData;
-   
-    public void Init(IBodyAttackable entityData)
+    public class EntityBodyDamage : MonoBehaviour
     {
-        _entityData = entityData;
-    }
-    
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+        private IBodyAttackable _entityData;
+
+        public void Init(IBodyAttackable entityData)
         {
-            playerHealth.TakeDamage(_entityData.BodyDamage);
+            _entityData = entityData;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+            {
+                playerHealth.TakeDamage(_entityData.BodyDamage);
+            }
         }
     }
 }

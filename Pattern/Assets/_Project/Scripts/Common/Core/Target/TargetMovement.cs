@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class TargetMovement : MonoBehaviour
+namespace TanksIO.Common.Core.Player
 {
-    [SerializeField] protected Rigidbody Rigidbody;
-
-    protected virtual void Awake()
+    public class TargetMovement : MonoBehaviour
     {
-        Rigidbody = GetComponent<Rigidbody>();
-    }
+        [SerializeField] protected Rigidbody Rigidbody;
 
-    public void Push(Vector3 duration)
-    {
-        Rigidbody.AddForce(duration * 100f);
+        protected virtual void Awake()
+        {
+            Rigidbody = GetComponent<Rigidbody>();
+        }
+
+        public void Push(Vector3 duration)
+        {
+            Rigidbody.AddForce(duration * 100f);
+        }
     }
 }

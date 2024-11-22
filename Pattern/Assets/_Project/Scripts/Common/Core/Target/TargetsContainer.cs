@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class TargetsContainer : MonoBehaviour
+namespace TanksIO.Common.Core.Player
 {
-    
+    public class TargetsContainer : MonoBehaviour
+    {
+
+    }
 }

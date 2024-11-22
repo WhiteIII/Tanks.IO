@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 
-public class HomingBullet : Bullet
+namespace TanksIO.Common.Core.Guns
 {
-    [SerializeField] private float _offsetScale;
-    [SerializeField] private float _forceScale;
-
-    protected override void FixedUpdate()
+    public class HomingBullet : Bullet
     {
-        Rigidbody.AddForce(Duration * _forceScale * Time.deltaTime);
-        Rigidbody.velocity = Vector3.zero;
+        [SerializeField] private float _offsetScale;
+        [SerializeField] private float _forceScale;
+
+        protected override void FixedUpdate()
+        {
+            Rigidbody.AddForce(Duration * _forceScale * Time.deltaTime);
+            Rigidbody.velocity = Vector3.zero;
+        }
     }
 }

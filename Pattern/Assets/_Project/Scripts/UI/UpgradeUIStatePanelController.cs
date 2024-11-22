@@ -1,45 +1,45 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UpgradeUIStatePanelController : MonoBehaviour
+namespace TanksIO.UI
 {
-    private RectTransform RectTransform => GetComponent<RectTransform>();
-    private GridLayoutGroupUIFactory Factory => new(Config.UIElement, RectTransform);
-
-    public UpgradePanelConfig Config { get; private set; }
-
-    [SerializeField] private RectTransform _panelViewTransform;
-    
-    private readonly UIElementRepository _elementRepository = new();
-
-    private Color _elementColor;
-
-    public void SetPanel(UpgradePanelConfig config, Color elementColor, 
-        Upgrades upgrade, UpgradeButtonFactory upgradeButtonFactory, 
-        PlayerLevelViewController playerLevelViewController, Canvas upgradePanelCanvas)
+    public class UpgradeUIStatePanelController : MonoBehaviour
     {
-        Config = config;
-        _elementColor = elementColor;
+        private RectTransform RectTransform => GetComponent<RectTransform>();
+        private GridLayoutGroupUIFactory Factory => new(Config.UIElement, RectTransform);
 
-        GameObject buttonPrefab;
-        UpgradePanelViewController upgradePanelViewController;
+        public UpgradePanelConfig Config { get; private set; }
 
-        if (TryGetComponent(out GridLayoutGroup _) == false)
-            gameObject.AddComponent<GridLayoutGroup>();
+        [SerializeField] private RectTransform _panelViewTransform;
 
-        for (int i = 0; i < Config.CountOfUpgrades; i++)
+        private readonly UIElementRepository _elementRepository = new();
+
+        public void SetPanel(UpgradePanelConfig config, Color elementColor,
+            Upgrades upgrade, UpgradeButtonFactory upgradeButtonFactory,
+            PlayerLevelViewController playerLevelViewController, Canvas upgradePanelCanvas)
         {
-            GameObject uIElementClone = Factory.Create();
-            uIElementClone.GetComponent<Image>().color = _elementColor;
-            _elementRepository.Register(uIElementClone);
+            Config = config;
+
+            GameObject buttonPrefab;
+            UpgradePanelViewController upgradePanelViewController;
+
+            if (TryGetComponent(out GridLayoutGroup _) == false)
+                gameObject.AddComponent<GridLayoutGroup>();
+
+            for (int i = 0; i < Config.CountOfUpgrades; i++)
+            {
+                GameObject uIElementClone = Factory.Create();
+                uIElementClone.GetComponent<Image>().color = elementColor;
+                _elementRepository.Register(uIElementClone);
+            }
+
+            upgradePanelViewController = new UpgradePanelViewController(_elementRepository);
+
+            buttonPrefab = upgradeButtonFactory.Create(GetComponent<RectTransform>().localPosition,
+                GetComponent<GridLayoutGroup>(), GetComponent<RectTransform>());
+
+            buttonPrefab.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades,
+                upgradePanelViewController, upgrade, playerLevelViewController);
         }
-
-        upgradePanelViewController = new UpgradePanelViewController(_elementRepository);
-
-        buttonPrefab = upgradeButtonFactory.Create(GetComponent<RectTransform>().localPosition, 
-            GetComponent<GridLayoutGroup>(), upgradePanelCanvas.GetComponent<RectTransform>());
-
-        buttonPrefab.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades, 
-            upgradePanelViewController, upgrade, playerLevelViewController);
     }
 }

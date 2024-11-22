@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 
-public class LookedOnTarget : MonoBehaviour
+namespace TanksIO.Common.Core.Enemy
 {
-    private EnemySetTarget _setTarget;
-
-    private void Update()
+    public class LookedOnTarget : MonoBehaviour
     {
-        if (_setTarget.TargetTransform != null)
+        private EnemySetTarget _setTarget;
+
+        private void Update()
         {
-            transform.LookAt(_setTarget.TargetTransform);
-            transform.rotation = new Quaternion(0f, transform.rotation.y,
-                0f, transform.rotation.w);
+            if (_setTarget.TargetTransform != null)
+            {
+                transform.LookAt(_setTarget.TargetTransform);
+                transform.rotation = new Quaternion(0f, transform.rotation.y,
+                    0f, transform.rotation.w);
+            }
         }
-    }
 
-    public void Init(EnemySetTarget enemySetTarget)
-    {
-        _setTarget = enemySetTarget;
+        public void Init(EnemySetTarget enemySetTarget)
+        {
+            _setTarget = enemySetTarget;
+        }
     }
 }

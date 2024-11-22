@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 
-public class GunFourSides : Gun
+namespace TanksIO.Common.Core.Guns
 {
-    public GunFourSides(GameObject bullet, GunSpawnPointList gunSpawnPointList, ITank tank, GlobalBulletObjectPool bulletObjectPool) : base(bullet, gunSpawnPointList, tank, bulletObjectPool)
+    public class GunFourSides : Gun
     {
-        Durations.Clear();
-    }
+        public GunFourSides(GameObject bullet, GunSpawnPointList gunSpawnPointList, ITank tank, GlobalBulletObjectPool bulletObjectPool) : base(bullet, gunSpawnPointList, tank, bulletObjectPool)
+        {
+            Durations.Clear();
+        }
 
-    public override void Shoot()
-    {
-        base.Shoot();
+        public override void Shoot()
+        {
+            base.Shoot();
+        }
     }
 }

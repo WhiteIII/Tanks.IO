@@ -1,51 +1,56 @@
 using System;
+using TanksIO.Common.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
 
-public class GunUpgradeButton : MonoBehaviour, IPointerDownHandler
+namespace TanksIO.UI
 {
-    [SerializeField] private GunUpgradePanel _gunUpgradePanel;
-    [SerializeField] private GunType _currentGunType;
-    [SerializeField] private GunType[] _gunTypeForViseble;
-
-    public event Action OnClicked;
-    
-    private IGunUpgradable _gunUpgradable;
-    private GunsDataList _gunDataList;
-
-    [Inject] private void Construct(PlayerData playerData, GunsDataList gunsDataList)
+    public class GunUpgradeButton : MonoBehaviour, IPointerDownHandler
     {
-        _gunUpgradable = playerData;
-        _gunDataList = gunsDataList;
-    }
+        [SerializeField] private GunUpgradePanel _gunUpgradePanel;
+        [SerializeField] private GunType _currentGunType;
+        [SerializeField] private GunType[] _gunTypeForViseble;
 
-    private void Awake()
-    {
-        _gunUpgradePanel.Upgraded += ChangeButtonVisible;
-    }
+        public event Action OnClicked;
 
-    private void OnDestroy()
-    {
-        _gunUpgradePanel.Upgraded -= ChangeButtonVisible;
-    }
+        private IGunUpgradable _gunUpgradable;
+        private GunsDataList _gunDataList;
 
-    private void ChangeButtonVisible()
-    {
-        foreach (GunType gunType in _gunTypeForViseble)
+        [Inject]
+        private void Construct(PlayerData playerData, GunsDataList gunsDataList)
         {
-            if (_gunDataList.CurrentGun.GunType == gunType)
-            {
-                return;
-            }
+            _gunUpgradable = playerData;
+            _gunDataList = gunsDataList;
         }
 
-        gameObject.SetActive(false);
-    }
+        private void Awake()
+        {
+            _gunUpgradePanel.Upgraded += ChangeButtonVisible;
+        }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        _gunUpgradable.ChangeGun(_currentGunType);
-        OnClicked?.Invoke();
+        private void OnDestroy()
+        {
+            _gunUpgradePanel.Upgraded -= ChangeButtonVisible;
+        }
+
+        private void ChangeButtonVisible()
+        {
+            foreach (GunType gunType in _gunTypeForViseble)
+            {
+                if (_gunDataList.CurrentGun.GunType == gunType)
+                {
+                    return;
+                }
+            }
+
+            gameObject.SetActive(false);
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            _gunUpgradable.ChangeGun(_currentGunType);
+            OnClicked?.Invoke();
+        }
     }
 }

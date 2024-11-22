@@ -1,15 +1,19 @@
+using TanksIO.Common.Services;
 using UnityEngine.UI;
 
-public class EntityHealthBar : HealthBar
+namespace TanksIO.UI
 {
-    protected override void ChangeBar()
+    public class EntityHealthBar : HealthBar
     {
-        _healthBar.fillAmount = (float)_health.HealthValue / _health.MaxHealth;
-    }
+        protected override void ChangeBar()
+        {
+            _healthBar.fillAmount = (float)_health.HealthValue / _health.MaxHealth;
+        }
 
-    public void Init(Health health, Image healthBar)
-    {
-        _health = health;
-        _healthBar = healthBar;
+        public void Init(Health health, Image healthBar)
+        {
+            _health = health;
+            _healthBar = healthBar;
+        }
     }
 }

@@ -2,51 +2,54 @@
 using UnityEngine.Pool;
 using Zenject;
 
-public class BulletObjectPool
+namespace TanksIO.Common.Core.Guns
 {
-    private GameObject _bulletObject;
-    private ObjectPool<GameObject> _pool;
-    private DiContainer _container;
-    private int _poolMaxSize = 40;
-
-    public BulletObjectPool(DiContainer container) 
-    { 
-        _container = container;
-
-        _pool = new ObjectPool<GameObject>(OnCreatePrefab, OnGetPrefab, OnRelease, OnDestroyPrefab, false, _poolMaxSize);
-    }
-
-    private GameObject OnCreatePrefab()
+    public class BulletObjectPool
     {
-        GameObject obj = _container.InstantiatePrefab(_bulletObject);
+        private GameObject _bulletObject;
+        private ObjectPool<GameObject> _pool;
+        private DiContainer _container;
+        private int _poolMaxSize = 40;
 
-        obj.GetComponent<Bullet>().BulletTouchedTheTarget += Release;
+        public BulletObjectPool(DiContainer container)
+        {
+            _container = container;
 
-        return obj;
-    }
+            _pool = new ObjectPool<GameObject>(OnCreatePrefab, OnGetPrefab, OnRelease, OnDestroyPrefab, false, _poolMaxSize);
+        }
 
-    private void OnDestroyPrefab(GameObject obj)
-    {
-        obj.GetComponent<Bullet>().BulletTouchedTheTarget -= Release;
-        GameObject.Destroy(obj);
-    }
+        private GameObject OnCreatePrefab()
+        {
+            GameObject obj = _container.InstantiatePrefab(_bulletObject);
 
-    private void Release(Bullet obj) =>
-        _pool.Release(obj.gameObject);
+            obj.GetComponent<Bullet>().BulletTouchedTheTarget += Release;
 
-    private void OnRelease(GameObject obj) =>
-        obj.SetActive(false);
+            return obj;
+        }
 
-    private void OnGetPrefab(GameObject obj)
-    {
-        obj.SetActive(true);
-    }
+        private void OnDestroyPrefab(GameObject obj)
+        {
+            obj.GetComponent<Bullet>().BulletTouchedTheTarget -= Release;
+            GameObject.Destroy(obj);
+        }
 
-    public GameObject Get(GameObject bulletPrefab)
-    {
-        _bulletObject = bulletPrefab;
-        var obj = _pool.Get();
+        private void Release(Bullet obj) =>
+            _pool.Release(obj.gameObject);
 
-        return obj;
+        private void OnRelease(GameObject obj) =>
+            obj.SetActive(false);
+
+        private void OnGetPrefab(GameObject obj)
+        {
+            obj.SetActive(true);
+        }
+
+        public GameObject Get(GameObject bulletPrefab)
+        {
+            _bulletObject = bulletPrefab;
+            var obj = _pool.Get();
+
+            return obj;
+        }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
-public class RigidbodyFacroty
+namespace TanksIO.Common.Services
 {
-    public void RigidbodyConfigure(Rigidbody rigidbody, float drag)
+    public class RigidbodyFacroty
     {
-        rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationZ
-            | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
-        rigidbody.drag = drag;
+        public void RigidbodyConfigure(Rigidbody rigidbody, float drag)
+        {
+            rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationZ
+                | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
+            rigidbody.drag = drag;
+        }
     }
 }

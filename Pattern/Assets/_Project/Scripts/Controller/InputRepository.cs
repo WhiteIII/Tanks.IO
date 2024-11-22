@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 
-public class InputRepository : MonoBehaviour
+namespace TanksIO.Controller
 {
-    private IMoveableInput[] _movementInputs;
-
-    private void FixedUpdate()
+    public class InputRepository : MonoBehaviour
     {
-        foreach (var input in _movementInputs)
+        private IMoveableInput[] _movementInputs;
+
+        private void FixedUpdate()
         {
-            if (input.IsActive)
-            { }
+            foreach (var input in _movementInputs)
+            {
+                if (input.IsActive)
+                { }
+            }
         }
     }
 }
-

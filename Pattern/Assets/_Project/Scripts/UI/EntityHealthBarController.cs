@@ -1,49 +1,53 @@
+using TanksIO.Common.Services;
 using UnityEngine;
 
-public class EntityHealthBarController : MonoBehaviour
+namespace TanksIO.UI
 {
-    private GameObject _canvasGameObject;
-    private EntityHealth _entityHealth;
-
-    private bool _isActive;
-
-    private void OnDestroy()
+    public class EntityHealthBarController : MonoBehaviour
     {
-        _entityHealth.HealthHasChanged -= ActiveCanvas;
-        _entityHealth.Reborn -= SubscribeUntilReborn;
-    }
+        private GameObject _canvasGameObject;
+        private EntityHealth _entityHealth;
 
-    private void ActiveCanvas()
-    {
-        _entityHealth.HealthHasChanged -= ActiveCanvas;
+        private bool _isActive;
 
-        _canvasGameObject.SetActive(true);
-    }
-
-    private void SubscribeUntilReborn()
-    {
-        _entityHealth.HealthHasChanged += ActiveCanvas;
-        _canvasGameObject.SetActive(false);
-        _isActive = false;
-    }
-    
-    public void Init(GameObject canvasGameObject, EntityHealth entityHealth)
-    {
-        _canvasGameObject = canvasGameObject;
-        _entityHealth = entityHealth;
-
-        _entityHealth.HealthHasChanged += ActiveCanvas;
-        _entityHealth.Reborn += SubscribeUntilReborn;
-        _canvasGameObject.SetActive(false);
-        _isActive = true;
-    }
-
-    private void OnEnable()
-    {
-        if (_isActive == false)
+        private void OnDestroy()
         {
-            _canvasGameObject?.SetActive(false);
+            _entityHealth.HealthHasChanged -= ActiveCanvas;
+            _entityHealth.Reborn -= SubscribeUntilReborn;
+        }
+
+        private void ActiveCanvas()
+        {
+            _entityHealth.HealthHasChanged -= ActiveCanvas;
+
+            _canvasGameObject.SetActive(true);
+        }
+
+        private void SubscribeUntilReborn()
+        {
+            _entityHealth.HealthHasChanged += ActiveCanvas;
+            _canvasGameObject.SetActive(false);
+            _isActive = false;
+        }
+
+        public void Init(GameObject canvasGameObject, EntityHealth entityHealth)
+        {
+            _canvasGameObject = canvasGameObject;
+            _entityHealth = entityHealth;
+
+            _entityHealth.HealthHasChanged += ActiveCanvas;
+            _entityHealth.Reborn += SubscribeUntilReborn;
+            _canvasGameObject.SetActive(false);
             _isActive = true;
+        }
+
+        private void OnEnable()
+        {
+            if (_isActive == false)
+            {
+                _canvasGameObject?.SetActive(false);
+                _isActive = true;
+            }
         }
     }
 }

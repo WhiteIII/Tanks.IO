@@ -3,34 +3,37 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHaelthBar : HealthBar
+namespace TanksIO.UI
 {
-    [SerializeField] private TextMeshProUGUI _text;
-
-    private StringBuilder _stringBuilder;
-
-    protected override void Start()
+    public class PlayerHaelthBar : HealthBar
     {
-        _stringBuilder = new StringBuilder();
+        [SerializeField] private TextMeshProUGUI _text;
 
-        _healthBar = GetComponent<Image>();
-        ChangeHealthCount();
-    }
+        private StringBuilder _stringBuilder;
 
-    protected override void ChangeBar()
-    {
-        base.ChangeBar();
+        protected override void Start()
+        {
+            _stringBuilder = new StringBuilder();
 
-        ChangeHealthCount();
-    }
+            _healthBar = GetComponent<Image>();
+            ChangeHealthCount();
+        }
 
-    private void ChangeHealthCount()
-    {
-        _stringBuilder.Append(_health.HealthValue);
-        _stringBuilder.Append(" / ");
-        _stringBuilder.Append(_health.MaxHealth);
+        protected override void ChangeBar()
+        {
+            base.ChangeBar();
 
-        _text.text = _stringBuilder.ToString();
-        _stringBuilder.Clear();
+            ChangeHealthCount();
+        }
+
+        private void ChangeHealthCount()
+        {
+            _stringBuilder.Append(_health.HealthValue);
+            _stringBuilder.Append(" / ");
+            _stringBuilder.Append(_health.MaxHealth);
+
+            _text.text = _stringBuilder.ToString();
+            _stringBuilder.Clear();
+        }
     }
 }

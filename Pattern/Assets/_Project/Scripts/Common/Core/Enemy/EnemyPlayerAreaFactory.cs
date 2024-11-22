@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 
-public class EnemyPlayerAreaFactory
+namespace TanksIO.Common.Core.Enemy
 {
-    public GameObject CreatePlayerArea()
+    public class EnemyPlayerAreaFactory
     {
-        var playerArea = new GameObject("PlayerArea");
+        public GameObject CreatePlayerArea()
+        {
+            var playerArea = new GameObject("PlayerArea");
 
-        SphereCollider sphereCollider = playerArea.AddComponent<SphereCollider>();
+            SphereCollider sphereCollider = playerArea.AddComponent<SphereCollider>();
 
-        playerArea.AddComponent<EnemyAttackArea>();
+            playerArea.AddComponent<EnemyAttackArea>();
 
-        sphereCollider.isTrigger = true;
-        sphereCollider.radius = 16f;
+            sphereCollider.isTrigger = true;
+            sphereCollider.radius = 16f;
 
-        return playerArea;
+            return playerArea;
+        }
     }
 }

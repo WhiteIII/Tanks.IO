@@ -1,26 +1,30 @@
+using TanksIO.Common.Core.Guns;
 using UnityEngine;
 
-public class GunCalculateKickback
+namespace TanksIO.Common.Core.Player
 {
-    private Rigidbody _rigidbody;
-    private IDiractionOfShot _gun;
-    
-    public GunCalculateKickback(Rigidbody rigidbody, Gun gun)
+    public class GunCalculateKickback
     {
-        _rigidbody = rigidbody;
-        _gun = gun;
-    }
+        private Rigidbody _rigidbody;
+        private IDiractionOfShot _gun;
 
-    public void GetKickback()
-    {
-        for (int i = 0; i < _gun.Durations.Count;  i++) 
+        public GunCalculateKickback(Rigidbody rigidbody, Gun gun)
         {
-            _rigidbody.AddForce(-_gun.Durations[i] * 52f * _gun.KickBackScale[i]);
+            _rigidbody = rigidbody;
+            _gun = gun;
         }
-    }
 
-    public void SetRigidBody(Rigidbody rigidbody)
-    {
-        _rigidbody = rigidbody;
+        public void GetKickback()
+        {
+            for (int i = 0; i < _gun.Durations.Count; i++)
+            {
+                _rigidbody.AddForce(-_gun.Durations[i] * 52f * _gun.KickBackScale[i]);
+            }
+        }
+
+        public void SetRigidBody(Rigidbody rigidbody)
+        {
+            _rigidbody = rigidbody;
+        }
     }
 }

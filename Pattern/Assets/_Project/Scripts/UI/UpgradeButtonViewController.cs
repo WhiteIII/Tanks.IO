@@ -1,15 +1,18 @@
-﻿public class UpgradeButtonViewController
+﻿namespace TanksIO.UI
 {
-    private readonly UpgradeButtonView _upgradeButtonView;
-
-    public UpgradeButtonViewController(UpgradeButtonView upgradeButtonView)
+    public class UpgradeButtonViewController
     {
-        _upgradeButtonView = upgradeButtonView;
+        private readonly UpgradeButtonView _upgradeButtonView;
+
+        public UpgradeButtonViewController(UpgradeButtonView upgradeButtonView)
+        {
+            _upgradeButtonView = upgradeButtonView;
+        }
+
+        public void ActivateButton() =>
+            _upgradeButtonView.ActivateButton();
+
+        public void DeactivateButton() =>
+            _upgradeButtonView.DeactivateButton();
     }
-
-    public void ActivateButton() =>
-        _upgradeButtonView.ActivateButton();
-
-    public void DeactivateButton() => 
-        _upgradeButtonView.DeactivateButton();
 }

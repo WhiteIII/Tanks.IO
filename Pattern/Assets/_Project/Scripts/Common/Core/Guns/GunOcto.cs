@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
-using Zenject;
 
-public class GunOcto : Gun
+namespace TanksIO.Common.Core.Guns
 {
-    public GunOcto(GameObject bullet, GunSpawnPointList gunSpawnPointList, ITank tank, GlobalBulletObjectPool bulletObjectPool) : base(bullet, gunSpawnPointList, tank, bulletObjectPool)
+    public class GunOcto : Gun
     {
-        Durations.Clear();
-    }
+        public GunOcto(GameObject bullet, GunSpawnPointList gunSpawnPointList, ITank tank, GlobalBulletObjectPool bulletObjectPool) : base(bullet, gunSpawnPointList, tank, bulletObjectPool)
+        {
+            Durations.Clear();
+        }
 
-    public override void Shoot()
-    {
-        base.Shoot();
+        public override void Shoot()
+        {
+            base.Shoot();
+        }
     }
 }

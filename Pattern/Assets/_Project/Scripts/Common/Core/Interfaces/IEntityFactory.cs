@@ -1,3 +1,4 @@
+using TanksIO.Common.ScriptableObjects;
 using UnityEngine;
 
 public interface IEntityFactory

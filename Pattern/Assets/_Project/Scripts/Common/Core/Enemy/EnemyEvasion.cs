@@ -1,47 +1,51 @@
 using System.Collections.Generic;
+using TanksIO.Common.Core.Player;
 using UnityEngine;
 
-public class EnemyEvasion : MonoBehaviour
+namespace TanksIO.Common.Core.Enemy
 {
-    public List<Transform> TargetTransforms { get; private set; } = new List<Transform>();
-
-    private void OnTriggerEnter(Collider other)
+    public class EnemyEvasion : MonoBehaviour
     {
-        if (other.TryGetComponent<TargetMovement>(out TargetMovement targetMovement))
+        public List<Transform> TargetTransforms { get; private set; } = new List<Transform>();
+
+        private void OnTriggerEnter(Collider other)
         {
-            TargetTransforms.Add(other.transform);
+            if (other.TryGetComponent(out TargetMovement targetMovement))
+            {
+                TargetTransforms.Add(other.transform);
+            }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent<TargetMovement>(out TargetMovement targetMovement))
+        private void OnTriggerExit(Collider other)
         {
-            TargetTransforms.Remove(other.transform);
+            if (other.TryGetComponent(out TargetMovement targetMovement))
+            {
+                TargetTransforms.Remove(other.transform);
+            }
         }
-    }
 
-    public Vector3 GetDuration()
-    {
-        Vector3 currentTargetPostion = TargetTransforms[0].position;
-        
-        foreach (Transform targetTransform in TargetTransforms)
+        public Vector3 GetDuration()
         {
-            if (Vector3.Distance(currentTargetPostion, transform.position)
-                    > Vector3.Distance(transform.position, targetTransform.position))
+            Vector3 currentTargetPostion = TargetTransforms[0].position;
+
+            foreach (Transform targetTransform in TargetTransforms)
+            {
+                if (Vector3.Distance(currentTargetPostion, transform.position)
+                        > Vector3.Distance(transform.position, targetTransform.position))
                 {
                     currentTargetPostion = targetTransform.position;
                 }
+            }
+
+            Vector3 duration = -(currentTargetPostion - transform.position).normalized;
+
+            return duration;
         }
-        
-        Vector3 duration = -(currentTargetPostion - transform.position).normalized;
 
-        return duration;
-    }
-
-    public Vector3 GetDuration(Vector3 targetPosition)
-    {
-        Vector3 duration = (targetPosition - transform.position).normalized;
-        return duration;
+        public Vector3 GetDuration(Vector3 targetPosition)
+        {
+            Vector3 duration = (targetPosition - transform.position).normalized;
+            return duration;
+        }
     }
 }

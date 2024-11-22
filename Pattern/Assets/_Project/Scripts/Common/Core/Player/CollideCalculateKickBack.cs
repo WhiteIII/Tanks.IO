@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public class CollideCalculateKickBack : TargetMovement
+namespace TanksIO.Common.Core.Player
 {
-    [SerializeField] private TankBodyDamage _tankBodyDamage;
-    [SerializeField] private float _forceScale;
-
-    protected override void Awake()
+    public class CollideCalculateKickBack : TargetMovement
     {
-        _tankBodyDamage.Collide += CollidePush;
-    }
+        [SerializeField] private TankBodyDamage _tankBodyDamage;
+        [SerializeField] private float _forceScale;
 
-    private void OnDestroy()
-    {
-        _tankBodyDamage.Collide -= CollidePush;
-    }
+        protected override void Awake()
+        {
+            _tankBodyDamage.Collide += CollidePush;
+        }
 
-    private void CollidePush()
-    {
-        Rigidbody.AddForce(-transform.position.normalized * _forceScale);
+        private void OnDestroy()
+        {
+            _tankBodyDamage.Collide -= CollidePush;
+        }
+
+        private void CollidePush()
+        {
+            Rigidbody.AddForce(-transform.position.normalized * _forceScale);
+        }
     }
 }

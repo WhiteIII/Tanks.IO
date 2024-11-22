@@ -1,42 +1,45 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class PanelAnimation : MonoBehaviour
+namespace TanksIO.UI
 {
-    private RectTransform _transform;
-    private Vector3 _transformLengthToShow;
-    private Vector3 _transformLengthToHide;
-    private float _duration;
-    private bool _isLocalMove = false;
-
-    public void Init(Vector3 transformLentghToShow, Vector3 transformLentghToHide, float duration)
+    public class PanelAnimation : MonoBehaviour
     {
-        _transformLengthToShow = transformLentghToShow;
-        _transformLengthToHide = transformLentghToHide;
-        _duration = duration;
-    }
+        private RectTransform _transform;
+        private Vector3 _transformLengthToShow;
+        private Vector3 _transformLengthToHide;
+        private float _duration;
+        private bool _isLocalMove = false;
 
-    public void Init(Vector3 transformLentghToShow, Vector3 transformLentghToHide, float duration, bool isLocalMove)
-    {
-        Init(transformLentghToShow, transformLentghToHide, duration);
+        public void Init(Vector3 transformLentghToShow, Vector3 transformLentghToHide, float duration)
+        {
+            _transformLengthToShow = transformLentghToShow;
+            _transformLengthToHide = transformLentghToHide;
+            _duration = duration;
+        }
 
-        _isLocalMove = isLocalMove;
-    }
+        public void Init(Vector3 transformLentghToShow, Vector3 transformLentghToHide, float duration, bool isLocalMove)
+        {
+            Init(transformLentghToShow, transformLentghToHide, duration);
 
-    private void Awake() =>
-        _transform = GetComponent<RectTransform>();
+            _isLocalMove = isLocalMove;
+        }
 
-    public void ShowPanel() =>
-        MovePanel(_transformLengthToShow);
-    
-    public void HidePanel() =>
-        MovePanel(_transformLengthToHide);
+        private void Awake() =>
+            _transform = GetComponent<RectTransform>();
 
-    private void MovePanel(Vector3 endPosition)
-    {
-        if (_isLocalMove)
-            _transform.DOLocalMove(endPosition, _duration, true);
-        else
-            _transform.DOMove(endPosition, _duration, true);
+        public void ShowPanel() =>
+            MovePanel(_transformLengthToShow);
+
+        public void HidePanel() =>
+            MovePanel(_transformLengthToHide);
+
+        private void MovePanel(Vector3 endPosition)
+        {
+            if (_isLocalMove)
+                _transform.DOLocalMove(endPosition, _duration, true);
+            else
+                _transform.DOMove(endPosition, _duration, true);
+        }
     }
 }

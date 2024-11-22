@@ -1,20 +1,24 @@
+using TanksIO.Common.Core.Target;
 using UnityEngine;
 
-public class PlayerArea : MonoBehaviour
+namespace TanksIO.Common.Core.Player
 {
-    private void OnTriggerEnter(Collider other)
+    public class PlayerArea : MonoBehaviour
     {
-        if (other.TryGetComponent<TargetAnimation>(out TargetAnimation targetAnimation))
+        private void OnTriggerEnter(Collider other)
         {
-            targetAnimation.StartAnimation();
+            if (other.TryGetComponent(out TargetAnimation targetAnimation))
+            {
+                targetAnimation.StartAnimation();
+            }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent<TargetAnimation>(out TargetAnimation targetAnimation))
+        private void OnTriggerExit(Collider other)
         {
-            targetAnimation.StopAnimation();
+            if (other.TryGetComponent(out TargetAnimation targetAnimation))
+            {
+                targetAnimation.StopAnimation();
+            }
         }
     }
 }

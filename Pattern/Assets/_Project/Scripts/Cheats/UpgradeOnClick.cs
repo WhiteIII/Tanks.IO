@@ -1,16 +1,21 @@
+using TanksIO.Common.ScriptableObjects;
 using UnityEngine;
 using Zenject;
 
-public class UpgradeOnClick : MonoBehaviour
+namespace TanksIO.Cheats
 {
-    [SerializeField] private int _points;
-    [Inject] private PlayerData _playerData;
-
-    private void Update()
+    public class UpgradeOnClick : MonoBehaviour
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        [SerializeField] private int _points;
+        
+        [Inject] private PlayerData _playerData;
+
+        private void Update()
         {
-            _playerData.AddPoints(_points);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                _playerData.AddPoints(_points);
+            }
         }
     }
 }

@@ -1,21 +1,24 @@
 using System;
 using UnityEngine;
 
-public class EnemyCanvasAnimation : MonoBehaviour
+namespace TanksIO.Common.Core.Enemy
 {
-    private bool _isPlaying = false;
-
-    public event Action<bool> AnimationStateChange;
-
-    public virtual void StopAnimation()
+    public class EnemyCanvasAnimation : MonoBehaviour
     {
-        _isPlaying = false;
-        AnimationStateChange?.Invoke(_isPlaying);
-    }
+        private bool _isPlaying = false;
 
-    public virtual void StartAnimation()
-    {
-        _isPlaying = true;
-        AnimationStateChange?.Invoke(_isPlaying);
+        public event Action<bool> AnimationStateChange;
+
+        public virtual void StopAnimation()
+        {
+            _isPlaying = false;
+            AnimationStateChange?.Invoke(_isPlaying);
+        }
+
+        public virtual void StartAnimation()
+        {
+            _isPlaying = true;
+            AnimationStateChange?.Invoke(_isPlaying);
+        }
     }
 }

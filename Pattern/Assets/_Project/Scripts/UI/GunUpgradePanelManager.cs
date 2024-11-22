@@ -1,9 +1,13 @@
+using TanksIO.Common.ScriptableObjects;
 using UnityEngine;
 using Zenject;
 
-public class GunUpgradePanelManager : MonoBehaviour
+namespace TanksIO.UI
 {
-    [SerializeField] private GunUpgradePanel[] _gunUpgradePanels;
+    public class GunUpgradePanelManager : MonoBehaviour
+    {
+        [SerializeField] private GunUpgradePanel[] _gunUpgradePanels;
 
-    [Inject] private GunsDataList _gunsDataList;
+        [Inject] private GunsDataList _gunsDataList;
+    }
 }

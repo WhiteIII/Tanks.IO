@@ -1,26 +1,30 @@
+using TanksIO.Common.Services;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class HealthBar : MonoBehaviour
+namespace TanksIO.UI
 {
-    [SerializeField] protected Health _health;
-
-    protected Image _healthBar;
-
-    protected virtual void Start()
+    public abstract class HealthBar : MonoBehaviour
     {
-        _healthBar = GetComponent<Image>();
-    }
-    
-    private void Awake() =>
-        _health.HealthHasChanged += ChangeBar;
+        [SerializeField] protected Health _health;
 
-    private void OnDestroy() =>
-        _health.HealthHasChanged -= ChangeBar;
+        protected Image _healthBar;
+
+        protected virtual void Start()
+        {
+            _healthBar = GetComponent<Image>();
+        }
+
+        private void Awake() =>
+            _health.HealthHasChanged += ChangeBar;
+
+        private void OnDestroy() =>
+            _health.HealthHasChanged -= ChangeBar;
 
 
-    protected virtual void ChangeBar()
-    {
-        _healthBar.fillAmount = (float)_health.HealthValue / _health.MaxHealth;
+        protected virtual void ChangeBar()
+        {
+            _healthBar.fillAmount = (float)_health.HealthValue / _health.MaxHealth;
+        }
     }
 }

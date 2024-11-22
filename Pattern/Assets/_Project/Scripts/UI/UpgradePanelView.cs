@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
-
-public class UpgradePanelView
+namespace TanksIO.UI
 {
-    public void DrawNewState(GameObject uIElement) =>
-        uIElement.SetActive(true);
+    public class UpgradePanelView
+    {
+        public void DrawNewState(GameObject uIElement) =>
+            uIElement.SetActive(true);
+    }
 }

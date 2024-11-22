@@ -1,27 +1,30 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UIElementRepository
+namespace TanksIO.UI
 {
-    public bool IsNotEmpty
+    public class UIElementRepository
     {
-        get
+        public bool IsNotEmpty
         {
-            return _uIElements.Count > 0;
+            get
+            {
+                return _uIElements.Count > 0;
+            }
         }
+
+        readonly private Queue<GameObject> _uIElements = new();
+
+        public void Register(GameObject element) =>
+            _uIElements.Enqueue(element);
+
+        public void OffAllObjects()
+        {
+            foreach (GameObject element in _uIElements)
+                element.SetActive(false);
+        }
+
+        public GameObject GetAndUnregister()
+            => _uIElements.Dequeue();
     }
-
-    readonly private Queue<GameObject> _uIElements = new();
-
-    public void Register(GameObject element) =>
-        _uIElements.Enqueue(element);
-
-    public void OffAllObjects()
-    {
-        foreach (GameObject element in _uIElements) 
-            element.SetActive(false);
-    }
-
-    public GameObject GetAndUnregister()
-        => _uIElements.Dequeue();
 }

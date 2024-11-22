@@ -1,173 +1,176 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Game", menuName = "Game/Player")]
-public class PlayerData : EntityData, ITank, IUpgradable, IPlayerDamagable
+namespace TanksIO.Common.ScriptableObjects
 {
-    public event Action PointsCountChange;
-    public event Action LevelChange;
-    public event Action<GunType> GunChanging;
-    
-    [field: SerializeField] public int Heal { get; private set; }
-    [field: SerializeField] public int Damage {  get; private set; }
-    [field: SerializeField] public float Speed { get; private set; }
-    [field: SerializeField] public float AttackSpeed { get; private set; }
-    [field: SerializeField] public float BulletSpeed { get; private set; }
-    [field: SerializeField] public int BulletPenetration { get; private set; }
-    [field: SerializeField] public int CountOfPoints { get; private set; }
-    [field: SerializeField] public int Level { get; private set; }
-    [field: SerializeField] public GunType GunType { get; private set; }
-
-    public int NumberOfUpgrades { get; private set; } = 0;
-
-    private float _pointsCountForNextUpgrade = 30;
-    private float _pointForUpgrade = 0;
-
-    private float _originalSpeed;
-    private float _originalAttackSpeed;
-    private float _originalBulletSpeed;
-    private int _originalHealth;
-    private int _originalHeal;
-    private int _originalDamage;
-    private int _originalBulletPenetration;
-    private int _originalBodyDamage;
-
-    public void AddPoints(int points)
+    [CreateAssetMenu(fileName = "Game", menuName = "Game/Player")]
+    public class PlayerData : EntityData, ITank, IUpgradable, IPlayerDamagable
     {
-        if (points > 0)
+        public event Action PointsCountChange;
+        public event Action LevelChange;
+        public event Action<GunType> GunChanging;
+
+        [field: SerializeField] public int Heal { get; private set; }
+        [field: SerializeField] public int Damage { get; private set; }
+        [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public float AttackSpeed { get; private set; }
+        [field: SerializeField] public float BulletSpeed { get; private set; }
+        [field: SerializeField] public int BulletPenetration { get; private set; }
+        [field: SerializeField] public int CountOfPoints { get; private set; }
+        [field: SerializeField] public int Level { get; private set; }
+        [field: SerializeField] public GunType GunType { get; private set; }
+
+        public int NumberOfUpgrades { get; private set; } = 0;
+
+        private float _pointsCountForNextUpgrade = 30;
+        private float _pointForUpgrade = 0;
+
+        private float _originalSpeed;
+        private float _originalAttackSpeed;
+        private float _originalBulletSpeed;
+        private int _originalHealth;
+        private int _originalHeal;
+        private int _originalDamage;
+        private int _originalBulletPenetration;
+        private int _originalBodyDamage;
+
+        public void AddPoints(int points)
         {
-            CountOfPoints += points;
-            _pointForUpgrade += points;
-            UpgradeLevel();
-            PointsCountChange?.Invoke();
-        }
-    }
-
-    public void ResetThePoints()
-    {
-        CountOfPoints = 0;
-        Level = 0;
-        _pointForUpgrade = 0;
-        _pointsCountForNextUpgrade = 30;
-    }
-
-    public void PlayerDataLoad()
-    {
-        _originalHealth = Health;
-        _originalHeal = Heal;
-        _originalDamage = Damage;
-        _originalSpeed = Speed;
-        _originalAttackSpeed = AttackSpeed;
-        _originalBulletSpeed = BulletSpeed;
-        _originalBulletPenetration = BulletPenetration;
-        _originalBodyDamage = BodyDamage;
-    }
-
-    public void ResetStats()
-    {
-        Health = _originalHealth;
-        Heal = _originalHeal;
-        Damage = _originalDamage;
-        Speed = _originalSpeed;
-        AttackSpeed = _originalAttackSpeed;
-        BulletSpeed = _originalBulletSpeed;
-        BulletPenetration = _originalBulletPenetration;
-        BodyDamage = _originalBodyDamage;
-
-        NumberOfUpgrades = 0;
-
-        GunType = GunType.OrdinaryGun;
-    }
-
-    private void UpgradeLevel()
-    {
-        if (_pointForUpgrade < _pointsCountForNextUpgrade)
-        {
-            return;
+            if (points > 0)
+            {
+                CountOfPoints += points;
+                _pointForUpgrade += points;
+                UpgradeLevel();
+                PointsCountChange?.Invoke();
+            }
         }
 
-        while (_pointForUpgrade >= _pointsCountForNextUpgrade)
+        public void ResetThePoints()
         {
-            Level++;
-            NumberOfUpgrades++;
-            _pointForUpgrade -= _pointsCountForNextUpgrade;
-            _pointsCountForNextUpgrade *= 1.25f;
-            _pointsCountForNextUpgrade = Mathf.Round(_pointsCountForNextUpgrade);
-            HiddenStatsUpgrade();
+            CountOfPoints = 0;
+            Level = 0;
+            _pointForUpgrade = 0;
+            _pointsCountForNextUpgrade = 30;
         }
 
-        LevelChange?.Invoke();
-    }
-
-    private void HiddenStatsUpgrade()
-    {
-        Health += 15;
-        Heal += 3;
-        BodyDamage += 2;
-        Damage += 2;
-        Speed += 0.05f;
-
-        if (AttackSpeed - 0.005f >= 0)
+        public void PlayerDataLoad()
         {
-            AttackSpeed -= 0.005f;
+            _originalHealth = Health;
+            _originalHeal = Heal;
+            _originalDamage = Damage;
+            _originalSpeed = Speed;
+            _originalAttackSpeed = AttackSpeed;
+            _originalBulletSpeed = BulletSpeed;
+            _originalBulletPenetration = BulletPenetration;
+            _originalBodyDamage = BodyDamage;
         }
 
-        BulletSpeed += 0.1f;
-    }
-
-    public void UpgradeHealth()
-    {
-        Health += 15;
-        NumberOfUpgrades--;
-    }
-
-    public void UpgradeHeal()
-    {
-        Health += 5;
-        NumberOfUpgrades--;
-    }
-
-    public void UpgradeSpeed()
-    {
-        Speed += 0.07f;
-        NumberOfUpgrades--;
-    }
-
-    public void UpgradeBodyDamage()
-    {
-        BodyDamage += 5;
-        NumberOfUpgrades--;
-    }
-
-    public void UpgradeDamage()
-    {
-        Damage += 4;
-        NumberOfUpgrades--;
-    }
-
-    public void UpgradeReload()
-    {
-        if (AttackSpeed - 0.01f >= 0)
+        public void ResetStats()
         {
-            AttackSpeed -= 0.01f;
+            Health = _originalHealth;
+            Heal = _originalHeal;
+            Damage = _originalDamage;
+            Speed = _originalSpeed;
+            AttackSpeed = _originalAttackSpeed;
+            BulletSpeed = _originalBulletSpeed;
+            BulletPenetration = _originalBulletPenetration;
+            BodyDamage = _originalBodyDamage;
+
+            NumberOfUpgrades = 0;
+
+            GunType = GunType.OrdinaryGun;
+        }
+
+        private void UpgradeLevel()
+        {
+            if (_pointForUpgrade < _pointsCountForNextUpgrade)
+            {
+                return;
+            }
+
+            while (_pointForUpgrade >= _pointsCountForNextUpgrade)
+            {
+                Level++;
+                NumberOfUpgrades++;
+                _pointForUpgrade -= _pointsCountForNextUpgrade;
+                _pointsCountForNextUpgrade *= 1.25f;
+                _pointsCountForNextUpgrade = Mathf.Round(_pointsCountForNextUpgrade);
+                HiddenStatsUpgrade();
+            }
+
+            LevelChange?.Invoke();
+        }
+
+        private void HiddenStatsUpgrade()
+        {
+            Health += 15;
+            Heal += 3;
+            BodyDamage += 2;
+            Damage += 2;
+            Speed += 0.05f;
+
+            if (AttackSpeed - 0.005f >= 0)
+            {
+                AttackSpeed -= 0.005f;
+            }
+
+            BulletSpeed += 0.1f;
+        }
+
+        public void UpgradeHealth()
+        {
+            Health += 15;
             NumberOfUpgrades--;
         }
-    }
 
-    public void UpgradeBulletSpeed()
-    {
-        BulletSpeed += 0.1f;
-        NumberOfUpgrades--;
-    }
+        public void UpgradeHeal()
+        {
+            Health += 5;
+            NumberOfUpgrades--;
+        }
 
-    public void UpgradeBulletPenetration()
-    {
-        NumberOfUpgrades--;
-    }
+        public void UpgradeSpeed()
+        {
+            Speed += 0.07f;
+            NumberOfUpgrades--;
+        }
 
-    public void ChangeGun(GunType gunType)
-    {
-        GunType = gunType;
-        GunChanging?.Invoke(GunType);
+        public void UpgradeBodyDamage()
+        {
+            BodyDamage += 5;
+            NumberOfUpgrades--;
+        }
+
+        public void UpgradeDamage()
+        {
+            Damage += 4;
+            NumberOfUpgrades--;
+        }
+
+        public void UpgradeReload()
+        {
+            if (AttackSpeed - 0.01f >= 0)
+            {
+                AttackSpeed -= 0.01f;
+                NumberOfUpgrades--;
+            }
+        }
+
+        public void UpgradeBulletSpeed()
+        {
+            BulletSpeed += 0.1f;
+            NumberOfUpgrades--;
+        }
+
+        public void UpgradeBulletPenetration()
+        {
+            NumberOfUpgrades--;
+        }
+
+        public void ChangeGun(GunType gunType)
+        {
+            GunType = gunType;
+            GunChanging?.Invoke(GunType);
+        }
     }
 }

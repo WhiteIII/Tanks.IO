@@ -1,51 +1,56 @@
-﻿using UnityEngine;
+﻿using TanksIO.Common.ScriptableObjects;
+using TanksIO.Common.Services;
+using UnityEngine;
 using Zenject;
 
-public class EnemyPartsFactory
+namespace TanksIO.Common.Core.Enemy
 {
-    public GameObject CreateBody(EnemyData enemyData, DiContainer diContainer)
+    public class EnemyPartsFactory
     {
-        GameObject enemyBody = diContainer.InstantiatePrefab(enemyData.TargetPrefab);
+        public GameObject CreateBody(EnemyData enemyData, DiContainer diContainer)
+        {
+            GameObject enemyBody = diContainer.InstantiatePrefab(enemyData.TargetPrefab);
 
-        return enemyBody;
-    }
+            return enemyBody;
+        }
 
-    public GameObject CreatePlayerArea(EntityHealth entityHealth)
-    {
-        var playerArea = new GameObject("PlayerArea");
+        public GameObject CreatePlayerArea(EntityHealth entityHealth)
+        {
+            var playerArea = new GameObject("PlayerArea");
 
-        SphereCollider sphereCollider = playerArea.AddComponent<SphereCollider>();
+            SphereCollider sphereCollider = playerArea.AddComponent<SphereCollider>();
 
-        playerArea.AddComponent<EnemyAttackArea>().Init(entityHealth);
+            playerArea.AddComponent<EnemyAttackArea>().Init(entityHealth);
 
-        sphereCollider.isTrigger = true;
-        sphereCollider.radius = 16f;
+            sphereCollider.isTrigger = true;
+            sphereCollider.radius = 16f;
 
-        return playerArea;
-    }
+            return playerArea;
+        }
 
-    public GameObject CreateAttackArea()
-    {
-        var enemyAttackArea = new GameObject("AttackArea");
+        public GameObject CreateAttackArea()
+        {
+            var enemyAttackArea = new GameObject("AttackArea");
 
-        BoxCollider boxCollider = enemyAttackArea.AddComponent<BoxCollider>();
-        enemyAttackArea.AddComponent<EnemyEvasion>();
+            BoxCollider boxCollider = enemyAttackArea.AddComponent<BoxCollider>();
+            enemyAttackArea.AddComponent<EnemyEvasion>();
 
-        boxCollider.isTrigger = true;
-        boxCollider.size = new Vector3(2f, 2f, 2f);
+            boxCollider.isTrigger = true;
+            boxCollider.size = new Vector3(2f, 2f, 2f);
 
-        return enemyAttackArea;
-    }
+            return enemyAttackArea;
+        }
 
-    public void BuildTheObject(GameObject currentGameObject, GameObject body, GameObject playerArea, GameObject attackArea)
-    {
-        body.transform.SetParent(currentGameObject.transform);
-        body.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        public void BuildTheObject(GameObject currentGameObject, GameObject body, GameObject playerArea, GameObject attackArea)
+        {
+            body.transform.SetParent(currentGameObject.transform);
+            body.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-        playerArea.transform.SetParent(currentGameObject.transform);
-        playerArea.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            playerArea.transform.SetParent(currentGameObject.transform);
+            playerArea.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-        attackArea.transform.SetParent(currentGameObject.transform);
-        attackArea.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            attackArea.transform.SetParent(currentGameObject.transform);
+            attackArea.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        }
     }
 }

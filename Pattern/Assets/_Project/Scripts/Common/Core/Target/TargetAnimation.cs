@@ -1,31 +1,34 @@
 using UnityEngine;
 using DG.Tweening;
-using System;
+using TanksIO.Common.Core.Enemy;
 
-public class TargetAnimation : EnemyCanvasAnimation
+namespace TanksIO.Common.Core.Target
 {
-    private Tween _tween;
-
-    private void Awake()
+    public class TargetAnimation : EnemyCanvasAnimation
     {
-        _tween = transform.DORotate(new Vector3(0, 360f, 0), 30, RotateMode.FastBeyond360).SetLoops(-1);
-        _tween.Pause();
-    }
+        private Tween _tween;
 
-    public override void StopAnimation()
-    {
-        _tween.Pause();
-        base.StopAnimation();
-    }
+        private void Awake()
+        {
+            _tween = transform.DORotate(new Vector3(0, 360f, 0), 30, RotateMode.FastBeyond360).SetLoops(-1);
+            _tween.Pause();
+        }
 
-    public override void StartAnimation()
-    {
-        _tween.Play();
-        base.StartAnimation();
-    }
+        public override void StopAnimation()
+        {
+            _tween.Pause();
+            base.StopAnimation();
+        }
 
-    private void OnDisable()
-    {
-        StopAnimation();
+        public override void StartAnimation()
+        {
+            _tween.Play();
+            base.StartAnimation();
+        }
+
+        private void OnDisable()
+        {
+            StopAnimation();
+        }
     }
 }

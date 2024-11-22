@@ -1,41 +1,45 @@
 ﻿using UnityEngine;
+using TanksIO.Common.Core.Enemy;
 
-public class CanvasLookedOnCamera : MonoBehaviour
+namespace TanksIO.UI
 {
-    private Camera _camera;
-    private EnemyCanvasAnimation _targetAnimation;
-    private bool _isPlaying = false;
-
-    private void Update()
+    public class CanvasLookedOnCamera : MonoBehaviour
     {
-        if (_camera == null)
+        private Camera _camera;
+        private EnemyCanvasAnimation _targetAnimation;
+        private bool _isPlaying = false;
+
+        private void Update()
         {
-            return;
+            if (_camera == null)
+            {
+                return;
+            }
+
+            if (_isPlaying == false)
+            {
+                return;
+            }
+
+            transform.LookAt(transform.position + _camera.transform.rotation * Vector3.back, _camera.transform.rotation * Vector3.up);
         }
 
-        if (_isPlaying == false)
+        private void OnDestroy()
         {
-            return;
+            _targetAnimation.AnimationStateChange -= InTheLens;
         }
 
-        transform.LookAt(transform.position + _camera.transform.rotation * Vector3.back, _camera.transform.rotation * Vector3.up);
-    }
+        public void Init(Camera camera, EnemyCanvasAnimation targetAnimation)
+        {
+            _camera = camera;
+            _targetAnimation = targetAnimation;
 
-    private void OnDestroy()
-    {
-        _targetAnimation.AnimationStateChange -= InTheLens;
-    }
+            _targetAnimation.AnimationStateChange += InTheLens;
+        }
 
-    public void Init(Camera camera, EnemyCanvasAnimation targetAnimation)
-    {
-        _camera = camera;
-        _targetAnimation = targetAnimation;
-
-        _targetAnimation.AnimationStateChange += InTheLens;
-    }
-
-    private void InTheLens(bool isPlaying)
-    {
-        _isPlaying = isPlaying;
+        private void InTheLens(bool isPlaying)
+        {
+            _isPlaying = isPlaying;
+        }
     }
 }

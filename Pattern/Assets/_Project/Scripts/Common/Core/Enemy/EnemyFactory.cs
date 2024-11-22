@@ -1,66 +1,74 @@
+using TanksIO.Common.Core.Guns;
+using TanksIO.Common.Core.Player;
+using TanksIO.Common.ScriptableObjects;
+using TanksIO.Common.Services;
+using TanksIO.UI;
 using UnityEngine;
 using Zenject;
 
-public class EnemyFactory : IEntityFactory
+namespace TanksIO.Common.Core.Enemy
 {
-    private EnemyData _enemyData;
-    private GlobalBulletObjectPool _bulletObjectPool;
-    private DiContainer _diContainer;
-    private GameRules _gameRules;
-    
-    public EnemyFactory(EnemyData emenmyData, DiContainer diContainer, GlobalBulletObjectPool bulletObjectPool, GameRules gameRules)
+    public class EnemyFactory : IEntityFactory
     {
-        _enemyData = emenmyData;
-        _diContainer = diContainer;
-        _bulletObjectPool = bulletObjectPool;
-        _gameRules = gameRules;
-    }
-    
-    public GameObject CreateTarget(TargetData targetData, IUpgradable playerData, UIElementsListData uIElementsListData)
-    {
-        var enemyGameObject = new GameObject("Enemy");
+        private EnemyData _enemyData;
+        private GlobalBulletObjectPool _bulletObjectPool;
+        private DiContainer _diContainer;
+        private GameRules _gameRules;
 
-        EnemySetTarget enemySetTarget;
-        EnemyUpgrader enemyUpgrader;
-        EntityHealthBarFactory entityHealthBarFactory = new EntityHealthBarFactory();
-        EnemyPartsFactory enemyPartsFactory = new EnemyPartsFactory();
-        RigidbodyFacroty rigidbodyFacroty = new RigidbodyFacroty();
-        EnemyStatsInRunTime enemyStatsInRunTime = new EnemyStatsInRunTime(_enemyData, _gameRules);
-        
-        EntityHealth entityHealth = enemyGameObject.AddComponent<EntityHealth>();
+        public EnemyFactory(EnemyData emenmyData, DiContainer diContainer, GlobalBulletObjectPool bulletObjectPool, GameRules gameRules)
+        {
+            _enemyData = emenmyData;
+            _diContainer = diContainer;
+            _bulletObjectPool = bulletObjectPool;
+            _gameRules = gameRules;
+        }
 
-        entityHealth.Init(enemyStatsInRunTime);
-        entityHealth.SetEntityType(EntityType.Enemy);
-        
-        GameObject enemyBody = enemyPartsFactory.CreateBody(_enemyData, _diContainer);
-        GameObject playerArea = enemyPartsFactory.CreatePlayerArea(entityHealth);
-        GameObject enemyAttackArea = enemyPartsFactory.CreateAttackArea();
+        public GameObject CreateTarget(TargetData targetData, IUpgradable playerData, UIElementsListData uIElementsListData)
+        {
+            var enemyGameObject = new GameObject("Enemy");
 
-        Rigidbody rigidbody = enemyGameObject.AddComponent<Rigidbody>();
-        EnemyMovement enemyMovement = enemyGameObject.AddComponent<EnemyMovement>();
-        enemyGameObject.AddComponent<TargetMovement>();
+            EnemySetTarget enemySetTarget;
+            EnemyUpgrader enemyUpgrader;
+            EntityHealthBarFactory entityHealthBarFactory = new EntityHealthBarFactory();
+            EnemyPartsFactory enemyPartsFactory = new EnemyPartsFactory();
+            RigidbodyFacroty rigidbodyFacroty = new RigidbodyFacroty();
+            EnemyStatsInRunTime enemyStatsInRunTime = new EnemyStatsInRunTime(_enemyData, _gameRules);
 
-        rigidbodyFacroty.RigidbodyConfigure(rigidbody, 10f);
+            EntityHealth entityHealth = enemyGameObject.AddComponent<EntityHealth>();
 
-        enemySetTarget = new EnemySetTarget(playerArea.GetComponent<EnemyAttackArea>(), enemyGameObject.transform);
-        
-        enemyGameObject.AddComponent<LookedOnTarget>().Init(enemySetTarget);
-        
-        SphereCollider sphereCollider = enemyGameObject.AddComponent<SphereCollider>();
+            entityHealth.Init(enemyStatsInRunTime);
+            entityHealth.SetEntityType(EntityType.Enemy);
 
-        sphereCollider.isTrigger = true;
-        sphereCollider.radius = 0.5f;
+            GameObject enemyBody = enemyPartsFactory.CreateBody(_enemyData, _diContainer);
+            GameObject playerArea = enemyPartsFactory.CreatePlayerArea(entityHealth);
+            GameObject enemyAttackArea = enemyPartsFactory.CreateAttackArea();
 
-        enemyMovement.Init(playerArea.GetComponent<EnemyAttackArea>(), enemyGameObject.GetComponent<LookedOnTarget>(), rigidbody, 
-            enemyAttackArea.GetComponent<EnemyEvasion>(), enemyGameObject.GetComponent<Health>(), enemyStatsInRunTime);
-        enemyBody.GetComponent<EnemyShootTheGun>().Init(playerArea.GetComponent<EnemyAttackArea>(), enemyStatsInRunTime, rigidbody, enemyMovement, entityHealth, _bulletObjectPool);
-        enemyGameObject.AddComponent<EnemyCanvasAnimation>();
-        enemyUpgrader = new EnemyUpgrader(enemyStatsInRunTime, entityHealth, playerData);
+            Rigidbody rigidbody = enemyGameObject.AddComponent<Rigidbody>();
+            EnemyMovement enemyMovement = enemyGameObject.AddComponent<EnemyMovement>();
+            enemyGameObject.AddComponent<TargetMovement>();
 
-        entityHealthBarFactory.CreateCanvasForTarget(enemyGameObject, enemyGameObject.GetComponent<EntityHealth>(), uIElementsListData, enemyGameObject.GetComponent<EnemyCanvasAnimation>());
+            rigidbodyFacroty.RigidbodyConfigure(rigidbody, 10f);
 
-        enemyPartsFactory.BuildTheObject(enemyGameObject, enemyBody, playerArea, enemyAttackArea);
+            enemySetTarget = new EnemySetTarget(playerArea.GetComponent<EnemyAttackArea>(), enemyGameObject.transform);
 
-        return enemyGameObject;
+            enemyGameObject.AddComponent<LookedOnTarget>().Init(enemySetTarget);
+
+            SphereCollider sphereCollider = enemyGameObject.AddComponent<SphereCollider>();
+
+            sphereCollider.isTrigger = true;
+            sphereCollider.radius = 0.5f;
+
+            enemyMovement.Init(playerArea.GetComponent<EnemyAttackArea>(), enemyGameObject.GetComponent<LookedOnTarget>(), rigidbody,
+                enemyAttackArea.GetComponent<EnemyEvasion>(), enemyGameObject.GetComponent<Health>(), enemyStatsInRunTime);
+            enemyBody.GetComponent<EnemyShootTheGun>().Init(playerArea.GetComponent<EnemyAttackArea>(), enemyStatsInRunTime, rigidbody, enemyMovement, entityHealth, _bulletObjectPool);
+            enemyGameObject.AddComponent<EnemyCanvasAnimation>();
+            enemyUpgrader = new EnemyUpgrader(enemyStatsInRunTime, entityHealth, playerData);
+
+            entityHealthBarFactory.CreateCanvasForTarget(enemyGameObject, enemyGameObject.GetComponent<EntityHealth>(), uIElementsListData, enemyGameObject.GetComponent<EnemyCanvasAnimation>());
+
+            enemyPartsFactory.BuildTheObject(enemyGameObject, enemyBody, playerArea, enemyAttackArea);
+
+            return enemyGameObject;
+        }
     }
 }

@@ -1,7 +1,10 @@
 using UnityEngine;
 
-public class EntityData : ScriptableObject, IDamagable, IBodyAttackable
+namespace TanksIO.Common.ScriptableObjects
 {
-    [field: SerializeField] public int Health {  get; protected set; }
-    [field: SerializeField] public int BodyDamage { get; protected set; }
+    public class EntityData : ScriptableObject, IDamagable, IBodyAttackable
+    {
+        [field: SerializeField] public int Health { get; protected set; }
+        [field: SerializeField] public int BodyDamage { get; protected set; }
+    }
 }

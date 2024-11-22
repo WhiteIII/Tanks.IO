@@ -1,27 +1,30 @@
 ﻿using UnityEngine;
 
-public class CanvasLookedOnCameraEnemy : MonoBehaviour
+namespace TanksIO.UI
 {
-    private Camera _camera;
-    private bool _isPlaying = false;
-
-    private void Update()
+    public class CanvasLookedOnCameraEnemy : MonoBehaviour
     {
-        if (_camera == null)
+        private Camera _camera;
+        private bool _isPlaying = false;
+
+        private void Update()
         {
-            return;
+            if (_camera == null)
+            {
+                return;
+            }
+
+            transform.LookAt(transform.position + _camera.transform.rotation * Vector3.back, _camera.transform.rotation * Vector3.up);
         }
 
-        transform.LookAt(transform.position + _camera.transform.rotation * Vector3.back, _camera.transform.rotation * Vector3.up);
-    }
+        public void Init(Camera camera)
+        {
+            _camera = camera;
+        }
 
-    public void Init(Camera camera)
-    {
-        _camera = camera;
-    }
-
-    private void InTheLens(bool isPlaying)
-    {
-        _isPlaying = isPlaying;
+        private void InTheLens(bool isPlaying)
+        {
+            _isPlaying = isPlaying;
+        }
     }
 }

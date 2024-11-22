@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 
-public class GunQuadroShot : Gun
+namespace TanksIO.Common.Core.Guns
 {
-    public GunQuadroShot(GameObject bullet, GunSpawnPointList gunSpawnPointList, ITank tank, GlobalBulletObjectPool bulletObjectPool) : base(bullet, gunSpawnPointList, tank, bulletObjectPool)
+    public class GunQuadroShot : Gun
     {
-        Durations.Clear();
-    }
+        public GunQuadroShot(GameObject bullet, GunSpawnPointList gunSpawnPointList, ITank tank, GlobalBulletObjectPool bulletObjectPool) : base(bullet, gunSpawnPointList, tank, bulletObjectPool)
+        {
+            Durations.Clear();
+        }
 
-    public override void Shoot()
-    {
-        base.Shoot();
+        public override void Shoot()
+        {
+            base.Shoot();
+        }
     }
 }

@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class GunDoubleShot : Gun
+namespace TanksIO.Common.Core.Guns
 {
-    public GunDoubleShot(GameObject bullet, GunSpawnPointList gunSpawnPointList, ITank tank, GlobalBulletObjectPool bulletObjectPool) : base(bullet, gunSpawnPointList, tank, bulletObjectPool)
+    public class GunDoubleShot : Gun
     {
-        Durations.Clear();
-    }
+        public GunDoubleShot(GameObject bullet, GunSpawnPointList gunSpawnPointList, ITank tank, GlobalBulletObjectPool bulletObjectPool) : base(bullet, gunSpawnPointList, tank, bulletObjectPool)
+        {
+            Durations.Clear();
+        }
 
-    public override void Shoot()
-    {
-        base.Shoot();
+        public override void Shoot()
+        {
+            base.Shoot();
+        }
     }
 }

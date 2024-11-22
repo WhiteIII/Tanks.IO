@@ -1,81 +1,88 @@
 using System.Collections;
 using UnityEngine;
 using Zenject;
+using TanksIO.Common.Core.Enemy;
+using TanksIO.Common.Core.Guns;
+using TanksIO.Common.ScriptableObjects;
 
-public class ShootTheGun : EntityShoot
+namespace TanksIO.Common.Core.Player
 {
-    [SerializeField] private VariableJoystick _variableJoystick;
-
-    private IGunUpgradable _playerGunData;
-    private IAttackable _playerAttackData;
-    private ITank _playerTank;
-    private GlobalBulletObjectPool _bulletObjectPool;
-
-    [Inject] private void Construct(PlayerData playerData, GlobalBulletObjectPool bulletObjectPool)
+    public class ShootTheGun : EntityShoot
     {
-        _playerGunData = playerData;
-        _playerAttackData = playerData;
-        _playerTank = playerData;
-        _bulletObjectPool = bulletObjectPool;
-    }
-    
-    private void Awake()
-    {      
-        Rigidbody = GetComponent<Rigidbody>();
+        [SerializeField] private VariableJoystick _variableJoystick;
 
-        ChangeGun(GunType.OrdinaryGun);
+        private IGunUpgradable _playerGunData;
+        private IAttackable _playerAttackData;
+        private ITank _playerTank;
+        private GlobalBulletObjectPool _bulletObjectPool;
 
-        _variableJoystick.JoystickPositionChanged += PeriodicallyShoot;
-        _playerGunData.GunChanging += ChangeGun;
-    }
-
-    private void OnDestroy()
-    {
-        _variableJoystick.JoystickPositionChanged -= PeriodicallyShoot;
-        _playerGunData.GunChanging -= ChangeGun;
-    }
-
-    protected override void PeriodicallyShoot()
-    {
-        if (Shooting)
+        [Inject]
+        private void Construct(PlayerData playerData, GlobalBulletObjectPool bulletObjectPool)
         {
-            return;
+            _playerGunData = playerData;
+            _playerAttackData = playerData;
+            _playerTank = playerData;
+            _bulletObjectPool = bulletObjectPool;
         }
 
-        if (_variableJoystick.OnClicked)
+        private void Awake()
         {
-            StartCoroutine(SpawnBullet());
-        }
-    }
+            Rigidbody = GetComponent<Rigidbody>();
 
-    protected override IEnumerator SpawnBullet()
-    {
-        Shooting = true;
+            ChangeGun(GunType.OrdinaryGun);
 
-        while (_variableJoystick.OnClicked)
-        {
-            Gun.Shoot();
-
-            CalculateKickback.GetKickback();
-
-            yield return new WaitForSeconds(_playerAttackData.AttackSpeed * 0.5f * GunDataList.CurrentGun.ReloadScale);
-            Rigidbody.velocity = Vector3.zero;
-
-            yield return new WaitForSeconds(_playerAttackData.AttackSpeed * 0.5f * GunDataList.CurrentGun.ReloadScale);
+            _variableJoystick.JoystickPositionChanged += PeriodicallyShoot;
+            _playerGunData.GunChanging += ChangeGun;
         }
 
-        Shooting = false;
-    }
-
-    private void ChangeGun(GunType gunType)
-    {
-        foreach (GunData gunData in GunDataList.GunDatas)
+        private void OnDestroy()
         {
-            if (gunType == gunData.GunType)
+            _variableJoystick.JoystickPositionChanged -= PeriodicallyShoot;
+            _playerGunData.GunChanging -= ChangeGun;
+        }
+
+        protected override void PeriodicallyShoot()
+        {
+            if (Shooting)
             {
-                IGunFactory gunFactory = GunScriptsList.GunsFactoryList[gunData.GunType];
-                gunFactory.CreateGun(gunData, CurrentGunPrefab, ref CalculateKickback, Rigidbody, GunSpawnPoint, ref Gun, _playerTank, _bulletObjectPool);
-                GunDataList.ChangeCurrentGun(gunData);
+                return;
+            }
+
+            if (_variableJoystick.OnClicked)
+            {
+                StartCoroutine(SpawnBullet());
+            }
+        }
+
+        protected override IEnumerator SpawnBullet()
+        {
+            Shooting = true;
+
+            while (_variableJoystick.OnClicked)
+            {
+                Gun.Shoot();
+
+                CalculateKickback.GetKickback();
+
+                yield return new WaitForSeconds(_playerAttackData.AttackSpeed * 0.5f * GunDataList.CurrentGun.ReloadScale);
+                Rigidbody.velocity = Vector3.zero;
+
+                yield return new WaitForSeconds(_playerAttackData.AttackSpeed * 0.5f * GunDataList.CurrentGun.ReloadScale);
+            }
+
+            Shooting = false;
+        }
+
+        private void ChangeGun(GunType gunType)
+        {
+            foreach (GunData gunData in GunDataList.GunDatas)
+            {
+                if (gunType == gunData.GunType)
+                {
+                    IGunFactory gunFactory = GunScriptsList.GunsFactoryList[gunData.GunType];
+                    gunFactory.CreateGun(gunData, CurrentGunPrefab, ref CalculateKickback, Rigidbody, GunSpawnPoint, ref Gun, _playerTank, _bulletObjectPool);
+                    GunDataList.ChangeCurrentGun(gunData);
+                }
             }
         }
     }

@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 
-public class EnemyAttackAreaFactory
+namespace TanksIO.Common.Core.Enemy
 {
-    public GameObject CreateAttackArea()
+    public class EnemyAttackAreaFactory
     {
-        var enemyAttackArea = new GameObject("AttackArea");
+        public GameObject CreateAttackArea()
+        {
+            var enemyAttackArea = new GameObject("AttackArea");
 
-        BoxCollider boxCollider = enemyAttackArea.AddComponent<BoxCollider>();
-        enemyAttackArea.AddComponent<EnemyEvasion>();
-        
-        boxCollider.isTrigger = true;
-        boxCollider.size = new Vector3(2f, 2f, 2f);
+            BoxCollider boxCollider = enemyAttackArea.AddComponent<BoxCollider>();
+            enemyAttackArea.AddComponent<EnemyEvasion>();
 
-        return enemyAttackArea;
+            boxCollider.isTrigger = true;
+            boxCollider.size = new Vector3(2f, 2f, 2f);
+
+            return enemyAttackArea;
+        }
     }
 }

@@ -2,26 +2,29 @@
 using UnityEngine.UI;
 using Zenject;
 
-public class UpgradeButtonFactory
+namespace TanksIO.UI
 {
-    private readonly UpgradeButtonPositionController _positionController;
-    private readonly GameObject _buttonPrefab;
-    private readonly DiContainer _diContainer;
-    
-    public UpgradeButtonFactory(GameObject buttonPrefab, DiContainer diContainer, 
-        int countOfUpgrades)
+    public class UpgradeButtonFactory
     {
-        _buttonPrefab = buttonPrefab;
-        _diContainer = diContainer;
+        private readonly UpgradeButtonPositionController _positionController;
+        private readonly GameObject _buttonPrefab;
+        private readonly DiContainer _diContainer;
 
-        _positionController = new UpgradeButtonPositionController(countOfUpgrades);
-    }
+        public UpgradeButtonFactory(GameObject buttonPrefab, DiContainer diContainer,
+            int countOfUpgrades)
+        {
+            _buttonPrefab = buttonPrefab;
+            _diContainer = diContainer;
 
-    public GameObject Create(Vector3 panelPostion, GridLayoutGroup gridLayoutGroup, RectTransform parent)
-    {   
-        GameObject buttonObject = _diContainer.InstantiatePrefab(_buttonPrefab, parent);
-        _positionController.SetPostion(buttonObject.GetComponent<RectTransform>(), 
-            panelPostion.y, gridLayoutGroup);
-        return buttonObject;
+            _positionController = new UpgradeButtonPositionController(countOfUpgrades);
+        }
+
+        public GameObject Create(Vector3 panelPostion, GridLayoutGroup gridLayoutGroup, RectTransform parent)
+        {
+            GameObject buttonObject = _diContainer.InstantiatePrefab(_buttonPrefab, parent);
+            _positionController.SetPostion(buttonObject.GetComponent<RectTransform>(),
+                panelPostion.y, gridLayoutGroup);
+            return buttonObject;
+        }
     }
 }

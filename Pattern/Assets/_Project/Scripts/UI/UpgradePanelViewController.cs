@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 
-public class UpgradePanelViewController
-{ 
-    private readonly UIElementRepository _elementRepository;
-    private readonly UpgradePanelView _view = new();
-
-    public UpgradePanelViewController(UIElementRepository elementRepository)
+namespace TanksIO.UI
+{
+    public class UpgradePanelViewController
     {
-        _elementRepository = elementRepository;
+        private readonly UIElementRepository _elementRepository;
+        private readonly UpgradePanelView _view = new();
 
-        _elementRepository.OffAllObjects();
-    }
+        public UpgradePanelViewController(UIElementRepository elementRepository)
+        {
+            _elementRepository = elementRepository;
 
-    public void DrawNewState()
-    {
-        if (_elementRepository.IsNotEmpty == false)
-            return;
-        
-        GameObject uIElement = _elementRepository.GetAndUnregister();
-        _view.DrawNewState(uIElement);
+            _elementRepository.OffAllObjects();
+        }
+
+        public void DrawNewState()
+        {
+            if (_elementRepository.IsNotEmpty == false)
+                return;
+
+            GameObject uIElement = _elementRepository.GetAndUnregister();
+            _view.DrawNewState(uIElement);
+        }
     }
 }

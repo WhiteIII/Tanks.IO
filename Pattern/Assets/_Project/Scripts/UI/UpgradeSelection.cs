@@ -1,113 +1,117 @@
 using System;
+using TanksIO.Common.ScriptableObjects;
 using UnityEngine;
 using Zenject;
 
-
-public class UpgradeSelection : MonoBehaviour
+namespace TanksIO.UI
 {
-    [field: SerializeField] public UpgradeUIState[] UpgradeUIState { get; private set; }
-    
-    public bool IsActive { get; private set; } = false;
-    
-    private IUpgradable _playerData;
-
-    public event Action PlayerLevelUpgrade;
-    public event Action PlayerUpgraded;
-    
-    [Inject] private void Construct(PlayerData playerData)
+    public class UpgradeSelection : MonoBehaviour
     {
-        _playerData = playerData;
-    }
+        [field: SerializeField] public UpgradeUIState[] UpgradeUIState { get; private set; }
 
-    private void Start()
-    {
-        foreach (var upgrade in UpgradeUIState)
+        public bool IsActive { get; private set; } = false;
+
+        private IUpgradable _playerData;
+
+        public event Action PlayerLevelUpgrade;
+        public event Action PlayerUpgraded;
+
+        [Inject]
+        private void Construct(PlayerData playerData)
         {
-            upgrade.Deactivate();
+            _playerData = playerData;
         }
 
-        _playerData.LevelChange += PanelSetActive;    
-    }
-
-    private void OnDestroy()
-    {
-        _playerData.LevelChange -= PanelSetActive;
-    }
-
-    private void PanelSetActive()
-    {
-        foreach (var upgrade in UpgradeUIState)
+        private void Start()
         {
-            upgrade.Activate();
-        }
-
-        PlayerLevelUpgrade?.Invoke();
-        IsActive = true;
-        _playerData.LevelChange -= PanelSetActive;
-    }
-
-    private void CheckTheActive()
-    {
-        if (_playerData.NumberOfUpgrades == 0)
-        {
-            IsActive = false;
-            
             foreach (var upgrade in UpgradeUIState)
             {
                 upgrade.Deactivate();
             }
 
-            PlayerUpgraded?.Invoke();
-
             _playerData.LevelChange += PanelSetActive;
         }
-    }
 
-    public void UpgradeHealth()
-    {
-        _playerData.UpgradeHealth();
-        CheckTheActive();
-    }
+        private void OnDestroy()
+        {
+            _playerData.LevelChange -= PanelSetActive;
+        }
 
-    public void UpgradeHeal()
-    {
-        _playerData.UpgradeHeal();
-        CheckTheActive();
-    }
+        private void PanelSetActive()
+        {
+            foreach (var upgrade in UpgradeUIState)
+            {
+                upgrade.Activate();
+            }
 
-    public void UpgradeSpeed()
-    {
-        _playerData.UpgradeSpeed();
-        CheckTheActive();
-    }
-    
-    public void UpgradeBodyDamage()
-    {
-        _playerData.UpgradeBodyDamage();
-        CheckTheActive();
-    }
+            PlayerLevelUpgrade?.Invoke();
+            IsActive = true;
+            _playerData.LevelChange -= PanelSetActive;
+        }
 
-    public void UpgradeDamage()
-    {
-        _playerData.UpgradeDamage();
-        CheckTheActive();
-    }
+        private void CheckTheActive()
+        {
+            if (_playerData.NumberOfUpgrades == 0)
+            {
+                IsActive = false;
 
-    public void UpgradeReload()
-    {
-        _playerData.UpgradeReload();
-        CheckTheActive();
-    }
+                foreach (var upgrade in UpgradeUIState)
+                {
+                    upgrade.Deactivate();
+                }
 
-    public void UpgradeBulletSpeed()
-    {
-        _playerData.UpgradeBulletSpeed();
-        CheckTheActive();
-    }
+                PlayerUpgraded?.Invoke();
 
-    public void UpgradeBulletPenetration()
-    {
-        _playerData.UpgradeBulletPenetration();
-        CheckTheActive();
+                _playerData.LevelChange += PanelSetActive;
+            }
+        }
+
+        public void UpgradeHealth()
+        {
+            _playerData.UpgradeHealth();
+            CheckTheActive();
+        }
+
+        public void UpgradeHeal()
+        {
+            _playerData.UpgradeHeal();
+            CheckTheActive();
+        }
+
+        public void UpgradeSpeed()
+        {
+            _playerData.UpgradeSpeed();
+            CheckTheActive();
+        }
+
+        public void UpgradeBodyDamage()
+        {
+            _playerData.UpgradeBodyDamage();
+            CheckTheActive();
+        }
+
+        public void UpgradeDamage()
+        {
+            _playerData.UpgradeDamage();
+            CheckTheActive();
+        }
+
+        public void UpgradeReload()
+        {
+            _playerData.UpgradeReload();
+            CheckTheActive();
+        }
+
+        public void UpgradeBulletSpeed()
+        {
+            _playerData.UpgradeBulletSpeed();
+            CheckTheActive();
+        }
+
+        public void UpgradeBulletPenetration()
+        {
+            _playerData.UpgradeBulletPenetration();
+            CheckTheActive();
+        }
     }
 }

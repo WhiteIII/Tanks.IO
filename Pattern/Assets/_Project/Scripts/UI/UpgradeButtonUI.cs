@@ -1,53 +1,58 @@
 using System;
+using TanksIO.Common.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
 
-public class UpgradeButtonUI : MonoBehaviour, IPointerDownHandler
+namespace TanksIO.UI
 {
-    public event Action OnOpen;
-    public event Action OnClose;
-     
-    [SerializeField] private UpgradeSelection _upgradeSelection;
-    [SerializeField] private TextMeshProUGUI _textMeshProUGUI;
-
-    private IUpgradable _playerData;
-    private bool _isDisplay = false;
-    
-    [Inject] private void Construct(PlayerData playerData)
+    public class UpgradeButtonUI : MonoBehaviour, IPointerDownHandler
     {
-        _playerData = playerData;
-    }
+        public event Action OnOpen;
+        public event Action OnClose;
 
-    private void Awake()
-    {
-        _playerData.LevelChange += DrawCurrentNumberOfUpgrades;
-        _upgradeSelection.PlayerUpgraded += DrawCurrentNumberOfUpgrades;
-    }
+        [SerializeField] private UpgradeSelection _upgradeSelection;
+        [SerializeField] private TextMeshProUGUI _textMeshProUGUI;
 
-    private void OnDestroy()
-    {
-        _playerData.LevelChange -= DrawCurrentNumberOfUpgrades;
-        _upgradeSelection.PlayerUpgraded -= DrawCurrentNumberOfUpgrades;
-    }
+        private IUpgradable _playerData;
+        private bool _isDisplay = false;
 
-    private void DrawCurrentNumberOfUpgrades()
-    {
-        _textMeshProUGUI.text = _playerData.NumberOfUpgrades.ToString();
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (_isDisplay == false)
+        [Inject]
+        private void Construct(PlayerData playerData)
         {
-            OnOpen?.Invoke();
-            _isDisplay = true;
+            _playerData = playerData;
         }
-        else
+
+        private void Awake()
         {
-            OnClose?.Invoke();
-            _isDisplay = false;
+            _playerData.LevelChange += DrawCurrentNumberOfUpgrades;
+            _upgradeSelection.PlayerUpgraded += DrawCurrentNumberOfUpgrades;
+        }
+
+        private void OnDestroy()
+        {
+            _playerData.LevelChange -= DrawCurrentNumberOfUpgrades;
+            _upgradeSelection.PlayerUpgraded -= DrawCurrentNumberOfUpgrades;
+        }
+
+        private void DrawCurrentNumberOfUpgrades()
+        {
+            _textMeshProUGUI.text = _playerData.NumberOfUpgrades.ToString();
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (_isDisplay == false)
+            {
+                OnOpen?.Invoke();
+                _isDisplay = true;
+            }
+            else
+            {
+                OnClose?.Invoke();
+                _isDisplay = false;
+            }
         }
     }
 }

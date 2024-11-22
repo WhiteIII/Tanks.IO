@@ -1,25 +1,28 @@
 using UnityEngine;
 
-public class TankRotationJoystick : MonoBehaviour
+namespace TanksIO.Common.Core.Player
 {
-    [SerializeField] private VariableJoystick _variableJoystick;
-    [SerializeField] private float _rotateSpeed;
-
-    public Vector3 Duration { get; private set; }
-
-    private void FixedUpdate()
+    public class TankRotationJoystick : MonoBehaviour
     {
-        float horizontal = _variableJoystick.Horizontal;
-        float vertical = _variableJoystick.Vertical;
+        [SerializeField] private VariableJoystick _variableJoystick;
+        [SerializeField] private float _rotateSpeed;
 
-        Vector3 movement = new Vector3(horizontal, 0f, vertical);
+        public Vector3 Duration { get; private set; }
 
-        if (movement != Vector3.zero)
+        private void FixedUpdate()
         {
-            Quaternion targetRotation = Quaternion.LookRotation(movement);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, _rotateSpeed * Time.deltaTime);
-        }
+            float horizontal = _variableJoystick.Horizontal;
+            float vertical = _variableJoystick.Vertical;
 
-        Duration = transform.rotation * Vector3.forward;
+            Vector3 movement = new Vector3(horizontal, 0f, vertical);
+
+            if (movement != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(movement);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, _rotateSpeed * Time.deltaTime);
+            }
+
+            Duration = transform.rotation * Vector3.forward;
+        }
     }
 }

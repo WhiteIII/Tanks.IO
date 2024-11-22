@@ -1,15 +1,20 @@
-﻿using UnityEngine;
+﻿using TanksIO.Common.Core.Player;
+using TanksIO.Common.ScriptableObjects;
+using UnityEngine;
 
-public class HexadShotFactory : OrdinaryGunFactory
+namespace TanksIO.Common.Core.Guns
 {
-    public new GunType GunType { get; private set; } = GunType.HexadShot;
-
-    public override void CreateGun(GunData gunData, GameObject currentGunPrefab, ref GunCalculateKickback tankCalculateKickback, Rigidbody rigidbody, Transform gunSpawnPoint, ref IShootable gun, ITank tank, GlobalBulletObjectPool bulletObjectPool)
+    public class HexadShotFactory : OrdinaryGunFactory
     {
-        _currentGunPrefab = currentGunPrefab;
-        CreatePrefab(gunData, rigidbody, gunSpawnPoint, ref gun);
+        public new GunType GunType { get; private set; } = GunType.HexadShot;
 
-        gun = new GunHexadShot(gunData.BulletPrefab, _currentGunPrefab.GetComponent<GunSpawnPointList>(), tank, bulletObjectPool);
-        tankCalculateKickback = new GunCalculateKickback(rigidbody, (Gun)gun);
+        public override void CreateGun(GunData gunData, GameObject currentGunPrefab, ref GunCalculateKickback tankCalculateKickback, Rigidbody rigidbody, Transform gunSpawnPoint, ref IShootable gun, ITank tank, GlobalBulletObjectPool bulletObjectPool)
+        {
+            _currentGunPrefab = currentGunPrefab;
+            CreatePrefab(gunData, rigidbody, gunSpawnPoint, ref gun);
+
+            gun = new GunHexadShot(gunData.BulletPrefab, _currentGunPrefab.GetComponent<GunSpawnPointList>(), tank, bulletObjectPool);
+            tankCalculateKickback = new GunCalculateKickback(rigidbody, (Gun)gun);
+        }
     }
 }

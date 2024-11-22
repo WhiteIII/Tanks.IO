@@ -1,17 +1,20 @@
 using UnityEngine;
 
-public class TankRotation : MonoBehaviour
+namespace TanksIO.Common.Core.Player
 {
-    [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private Camera _camera;
-
-    private void LateUpdate()
+    public class TankRotation : MonoBehaviour
     {
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        [SerializeField] private LayerMask _layerMask;
+        [SerializeField] private Camera _camera;
 
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _layerMask))
+        private void LateUpdate()
         {
-            transform.rotation = Quaternion.LookRotation(hit.point);
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _layerMask))
+            {
+                transform.rotation = Quaternion.LookRotation(hit.point);
+            }
         }
     }
 }

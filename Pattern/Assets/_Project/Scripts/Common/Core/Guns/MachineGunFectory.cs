@@ -1,15 +1,20 @@
-﻿using UnityEngine;
+﻿using TanksIO.Common.Core.Player;
+using TanksIO.Common.ScriptableObjects;
+using UnityEngine;
 
-public class MachineGunFectory : OrdinaryGunFactory
+namespace TanksIO.Common.Core.Guns
 {
-    public new GunType GunType { get; private set; } = GunType.MachineGun;
-
-    public override void CreateGun(GunData gunData, GameObject currentGunPrefab, ref GunCalculateKickback tankCalculateKickback, Rigidbody rigidbody, Transform gunSpawnPoint, ref IShootable gun, ITank tank, GlobalBulletObjectPool bulletObjectPool)
+    public class MachineGunFectory : OrdinaryGunFactory
     {
-        _currentGunPrefab = currentGunPrefab;
-        CreatePrefab(gunData, rigidbody, gunSpawnPoint, ref gun);
+        public new GunType GunType { get; private set; } = GunType.MachineGun;
 
-        gun = new MachineGun(gunData.BulletPrefab, _currentGunPrefab.GetComponent<GunSpawnPointList>(), tank, bulletObjectPool);
-        tankCalculateKickback = new GunCalculateKickback(rigidbody, (Gun)gun);
+        public override void CreateGun(GunData gunData, GameObject currentGunPrefab, ref GunCalculateKickback tankCalculateKickback, Rigidbody rigidbody, Transform gunSpawnPoint, ref IShootable gun, ITank tank, GlobalBulletObjectPool bulletObjectPool)
+        {
+            _currentGunPrefab = currentGunPrefab;
+            CreatePrefab(gunData, rigidbody, gunSpawnPoint, ref gun);
+
+            gun = new MachineGun(gunData.BulletPrefab, _currentGunPrefab.GetComponent<GunSpawnPointList>(), tank, bulletObjectPool);
+            tankCalculateKickback = new GunCalculateKickback(rigidbody, (Gun)gun);
+        }
     }
 }

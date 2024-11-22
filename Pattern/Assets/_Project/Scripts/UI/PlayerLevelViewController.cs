@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 
-public class PlayerLevelViewController : MonoBehaviour
+namespace TanksIO.UI
 {
-    [SerializeField] private PlayerLevelView _playerLevelView;
-
-    private UpgradeButtonModel _model;
-
-    public void Init(UpgradeButtonModel upgradeButtonModel)
+    public class PlayerLevelViewController : MonoBehaviour
     {
-        _model = upgradeButtonModel;
-        _model.PlayerLevelChanged += ChangeView;
-    }
+        [SerializeField] private PlayerLevelView _playerLevelView;
 
-    private void ChangeView(bool isActive) =>
-        _playerLevelView.Draw(_model.NumberOfUpgrades.ToString());
+        private UpgradeButtonModel _model;
+
+        public void Init(UpgradeButtonModel upgradeButtonModel)
+        {
+            _model = upgradeButtonModel;
+            _model.PlayerLevelChanged += ChangeView;
+        }
+
+        private void ChangeView(bool isActive) =>
+            _playerLevelView.Draw(_model.NumberOfUpgrades.ToString());
+    }
 }
