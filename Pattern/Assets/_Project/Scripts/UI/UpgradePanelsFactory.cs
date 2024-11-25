@@ -16,16 +16,24 @@ namespace TanksIO.UI
         [SerializeField] private GameObject _panel;
         [SerializeField] private PlayerLevelViewController _playerLevelViewController;
         [SerializeField] private UpgradeColorConfig[] _colors;
+        [SerializeField] private UpgradePanelRepository _panelRepository;
+
+        private UpgradePanelTextFactory _upgradePanelTextFactory;
 
         public void Create(UpgradePanelConfig upgradePanelConfig,
-            UpgradeButtonFactory upgradeButtonFactory, Canvas upgradePanelCanvas)
+            UpgradeButtonFactory upgradeButtonFactory)
         {
+            _upgradePanelTextFactory = new(upgradePanelConfig.CountOfUpgrades);
+            
             for (int i = 0; i < (int)Upgrades.BulletPenetration + 1; i++)
             {
                 GameObject panelObject = Factory.Create();
+
                 panelObject.GetComponentInChildren<UpgradeUIStatePanelController>().
-                    SetPanel(upgradePanelConfig, _colors[i].Color, _colors[i].Upgrades, upgradeButtonFactory,
-                    _playerLevelViewController, upgradePanelCanvas, RectTransform, GridLayoutGroup);
+                    SetPanel(upgradePanelConfig, _colors[i].Color, _colors[i].Upgrades, upgradeButtonFactory, 
+                    _upgradePanelTextFactory, _playerLevelViewController, 
+                    RectTransform, GridLayoutGroup, _panelRepository);
+                
                 ImagePanelController.DrawPanelWhthParameters(
                                                         panelObject.GetComponentInChildren<GridLayoutGroup>(),
                                                         GridLayoutGroup,

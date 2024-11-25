@@ -18,8 +18,6 @@ namespace TanksIO.BootStrap
         private GameRules _gameRules;
         private UpgradeButtonFactory _upgradeButtonFactory;
 
-        [Inject(Id = "UpgradePanelCanvas")] private Canvas _upgradeCanvas;
-
         [Inject]
         private void Construct(PlayerData playerData, GameRules gameRules,
             PlayerUpgradeController playerUpgradeController, DiContainer diContainer)
@@ -34,7 +32,7 @@ namespace TanksIO.BootStrap
 
             DOTween.SetTweensCapacity(_tweenersCapacity, _sequencesCapacity);
 
-            _upgradePanelsFactory.Create(_upgradePanelConfig, _upgradeButtonFactory, _upgradeCanvas);
+            _upgradePanelsFactory.Create(_upgradePanelConfig, _upgradeButtonFactory);
         }
 
         private void OnDestroy()

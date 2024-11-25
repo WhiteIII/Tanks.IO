@@ -21,10 +21,11 @@ namespace TanksIO.UI
             _positionController = new UpgradeButtonPositionController(countOfUpgrades);
         }
 
-        public GameObject Create(Vector3 panelPostion, GridLayoutGroup panelFactoryGridLayoutGroup, 
-            GridLayoutGroup panelGridLayoutGroup, RectTransform parent)
+        public GameObject Create(Vector3 panelPostion, GridLayoutGroup panelFactoryGridLayoutGroup,
+            GridLayoutGroup panelGridLayoutGroup, UpgradePanelRepository upgradePanelRepository)
         {
-            GameObject buttonObject = _diContainer.InstantiatePrefab(_buttonPrefab, parent);
+            GameObject buttonObject = _diContainer.InstantiatePrefab(_buttonPrefab);
+            upgradePanelRepository.AddChildren(buttonObject.GetComponent<RectTransform>());
             _positionController.SetPostion(buttonObject.GetComponent<RectTransform>(),
                 panelPostion, panelFactoryGridLayoutGroup, panelGridLayoutGroup, _count);
             _count++;

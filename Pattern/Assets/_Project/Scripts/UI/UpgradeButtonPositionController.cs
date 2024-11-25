@@ -5,7 +5,6 @@ namespace TanksIO.UI
 {
     public class UpgradeButtonPositionController
     {
-        private readonly GridLayoutGroup layoutGroup;
         private readonly int _countOfUpgrades;
 
         public UpgradeButtonPositionController(int countOfUpgrades) =>

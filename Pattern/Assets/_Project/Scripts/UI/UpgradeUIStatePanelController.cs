@@ -1,5 +1,4 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace TanksIO.UI
@@ -12,12 +11,13 @@ namespace TanksIO.UI
         public UpgradePanelConfig Config { get; private set; }
 
         private readonly UIElementRepository _elementRepository = new();
-        private readonly UpgradePanelTextFactory _upgradePanelTextFactory = new();
 
         public void SetPanel(UpgradePanelConfig config, Color elementColor,
             Upgrades upgrade, UpgradeButtonFactory upgradeButtonFactory,
-            PlayerLevelViewController playerLevelViewController, Canvas upgradePanelCanvas, 
-            RectTransform panelsFactoryRectTransform, GridLayoutGroup panelsGridLayoutGroup)
+            UpgradePanelTextFactory upgradePanelTextFactory,
+            PlayerLevelViewController playerLevelViewController, 
+            RectTransform panelsFactoryRectTransform, GridLayoutGroup panelsGridLayoutGroup,
+            UpgradePanelRepository upgradePanelRepository)
         {
             Config = config;
 
@@ -37,26 +37,15 @@ namespace TanksIO.UI
             upgradePanelViewController = new UpgradePanelViewController(_elementRepository);
 
             buttonPrefab = upgradeButtonFactory.Create(panelsFactoryRectTransform.localPosition,
-                panelsGridLayoutGroup, GetComponent<GridLayoutGroup>(), upgradePanelCanvas.GetComponent<RectTransform>());
+                panelsGridLayoutGroup, GetComponent<GridLayoutGroup>(), 
+                upgradePanelRepository);
 
-            _upgradePanelTextFactory.Create(upgrade, upgradePanelCanvas.GetComponent<RectTransform>());
+            upgradePanelTextFactory.Create(upgrade, 
+                panelsFactoryRectTransform.localPosition, panelsGridLayoutGroup, GetComponent<GridLayoutGroup>(), 
+                upgradePanelRepository);
 
             buttonPrefab.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades,
                 upgradePanelViewController, upgrade, playerLevelViewController);
-        }
-    }
-
-    public class UpgradePanelTextFactory
-    {
-        public void Create(Upgrades upgrades, RectTransform parent)
-        {
-            GameObject textObject = new($"Text {upgrades}");
-            TextMeshProUGUI text = textObject.AddComponent<TextMeshProUGUI>();
-
-            textObject.transform.SetParent(parent);
-
-            text.alignment = TextAlignmentOptions.Center;
-            text.text = upgrades.ToString();
         }
     }
 }
