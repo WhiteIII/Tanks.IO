@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace TanksIO.UI
@@ -10,13 +11,13 @@ namespace TanksIO.UI
 
         public UpgradePanelConfig Config { get; private set; }
 
-        [SerializeField] private RectTransform _panelViewTransform;
-
         private readonly UIElementRepository _elementRepository = new();
+        private readonly UpgradePanelTextFactory _upgradePanelTextFactory = new();
 
         public void SetPanel(UpgradePanelConfig config, Color elementColor,
             Upgrades upgrade, UpgradeButtonFactory upgradeButtonFactory,
-            PlayerLevelViewController playerLevelViewController, Canvas upgradePanelCanvas)
+            PlayerLevelViewController playerLevelViewController, Canvas upgradePanelCanvas, 
+            RectTransform panelsFactoryRectTransform, GridLayoutGroup panelsGridLayoutGroup)
         {
             Config = config;
 
@@ -35,11 +36,27 @@ namespace TanksIO.UI
 
             upgradePanelViewController = new UpgradePanelViewController(_elementRepository);
 
-            buttonPrefab = upgradeButtonFactory.Create(GetComponent<RectTransform>().localPosition,
-                GetComponent<GridLayoutGroup>(), GetComponent<RectTransform>());
+            buttonPrefab = upgradeButtonFactory.Create(panelsFactoryRectTransform.localPosition,
+                panelsGridLayoutGroup, GetComponent<GridLayoutGroup>(), upgradePanelCanvas.GetComponent<RectTransform>());
+
+            _upgradePanelTextFactory.Create(upgrade, upgradePanelCanvas.GetComponent<RectTransform>());
 
             buttonPrefab.GetComponent<UpgradeButton>().Init(Config.CountOfUpgrades,
                 upgradePanelViewController, upgrade, playerLevelViewController);
+        }
+    }
+
+    public class UpgradePanelTextFactory
+    {
+        public void Create(Upgrades upgrades, RectTransform parent)
+        {
+            GameObject textObject = new($"Text {upgrades}");
+            TextMeshProUGUI text = textObject.AddComponent<TextMeshProUGUI>();
+
+            textObject.transform.SetParent(parent);
+
+            text.alignment = TextAlignmentOptions.Center;
+            text.text = upgrades.ToString();
         }
     }
 }

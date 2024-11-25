@@ -11,14 +11,17 @@ namespace TanksIO.UI
         public UpgradeButtonPositionController(int countOfUpgrades) =>
             _countOfUpgrades = countOfUpgrades;
 
-        public void SetPostion(RectTransform buttonRectTransform, float positionY, GridLayoutGroup layoutGroup)
+        public void SetPostion(RectTransform buttonRectTransform, Vector3 position, 
+            GridLayoutGroup panelFactoryLayoutGroup, GridLayoutGroup panelLayoutGroup, int count)
         {
-            float width = (layoutGroup.cellSize.x * _countOfUpgrades
-                + layoutGroup.spacing.x * (_countOfUpgrades - 1)) + buttonRectTransform.sizeDelta.x / 2f;
+            float width = (panelLayoutGroup.cellSize.x * _countOfUpgrades
+                + panelLayoutGroup.spacing.x * (_countOfUpgrades - 1)) + buttonRectTransform.sizeDelta.x / 2f;
 
-            buttonRectTransform.position = new Vector3(
-                                                buttonRectTransform.localPosition.x + width,
-                                                positionY,
+            float height = position.y - (panelFactoryLayoutGroup.cellSize.y + panelFactoryLayoutGroup.spacing.y) * count;
+
+            buttonRectTransform.localPosition = new Vector3(
+                                                position.x + width,
+                                                height,
                                                 buttonRectTransform.localPosition.z
             );
         }

@@ -24525,7 +24525,7 @@ GameObject:
   - component: {fileID: 2035610339}
   - component: {fileID: 2035610340}
   m_Layer: 5
-  m_Name: UpgradeIUPanel
+  m_Name: UpgradeIUPanels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
