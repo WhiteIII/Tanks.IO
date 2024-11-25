@@ -26,7 +26,7 @@ namespace TanksIO.UI
         {
             GameObject buttonObject = _diContainer.InstantiatePrefab(_buttonPrefab);
             upgradePanelRepository.AddChildren(buttonObject.GetComponent<RectTransform>());
-            _positionController.SetPostion(buttonObject.GetComponent<RectTransform>(),
+            _positionController.SetPosition(buttonObject.GetComponent<RectTransform>(),
                 panelPostion, panelFactoryGridLayoutGroup, panelGridLayoutGroup, _count);
             _count++;
             return buttonObject;

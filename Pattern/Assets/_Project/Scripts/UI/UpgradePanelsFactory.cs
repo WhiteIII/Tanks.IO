@@ -17,6 +17,9 @@ namespace TanksIO.UI
         [SerializeField] private PlayerLevelViewController _playerLevelViewController;
         [SerializeField] private UpgradeColorConfig[] _colors;
         [SerializeField] private UpgradePanelRepository _panelRepository;
+        [SerializeField] private Canvas _canvas;
+
+        private readonly UpgradePanelPosotionController _upgradePanelPosotionController = new();
 
         private UpgradePanelTextFactory _upgradePanelTextFactory;
 
@@ -41,6 +44,17 @@ namespace TanksIO.UI
             }
 
             PlayerLevelViewPositionController.SetPosition();
+            _upgradePanelPosotionController.SetPosition(GridLayoutGroup, RectTransform, _canvas);
+        }
+    }
+
+    public class UpgradePanelPosotionController
+    {
+        public void SetPosition(GridLayoutGroup panelsFactoryGridLayoutGroup, RectTransform panelRectTransform, Canvas canvas)
+        {
+            //Camera mainCamera = Camera.main;
+            Vector2 screenSize = canvas.GetComponent<CanvasScaler>().referenceResolution;
+            
         }
     }
 }
